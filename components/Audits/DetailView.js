@@ -16,10 +16,8 @@ import {
   AntDesign,
   Entypo,
 } from "@expo/vector-icons";
-
-import Bar from "./customProgressbar";
-import RiskAdd from "./RiskAdd";
-
+import Scheduleform from "./Scheduleform";
+import { colorPallate } from "../GlobalStyleVars";
 function getClosedTime() {
   const monthNames = [
     "January",
@@ -49,9 +47,15 @@ function getClosedTime() {
   return time;
 }
 
-function DetailView({ risk, updateRisk, addRisk, closeDetailView, formTitle }) {
+function DetailView({
+  audit,
+  updateAuditLists,
+  addSchedule,
+  closeDetailView,
+  formTitle,
+}) {
   const [formOpen, setFormOpen] = useState(false);
-  let [mitigated, setMitigated] = useState(risk.item.mitigated);
+  let [completed, setCompleted] = useState(audit.item.completed);
   let [checkOpen, setCheckopen] = useState(false);
 
   function handleClosebtn() {
@@ -61,7 +65,13 @@ function DetailView({ risk, updateRisk, addRisk, closeDetailView, formTitle }) {
     setFormOpen(false);
     console.log("fired editform");
   }
-
+  function renderList(list) {
+    return list.map((item, index) => (
+      <Text style={styles.text}>
+        {index + 1} {item}
+      </Text>
+    ));
+  }
   return (
     <View>
       <Modal visible={formOpen} animationType={"fade"}>
@@ -76,18 +86,15 @@ function DetailView({ risk, updateRisk, addRisk, closeDetailView, formTitle }) {
           </TouchableOpacity>
           <Text style={{ fontSize: 20 }}>{formTitle}</Text>
         </View>
-
         <ScrollView style={styles.modal}>
-          <RiskAdd
-            addRisk={addRisk}
+          <Scheduleform
+            addSchedule={addSchedule}
             formClose={formClose}
-            editRisk={risk}
-            closeDetailView={closeDetailView}
-            formTitle={formTitle}
+            editAudit={audit}
           />
         </ScrollView>
       </Modal>
-      <View style={mitigated ? styles.risk : {}}>
+      <View style={completed ? styles.risk : {}}>
         <View
           style={{
             flexDirection: "row",
@@ -95,59 +102,40 @@ function DetailView({ risk, updateRisk, addRisk, closeDetailView, formTitle }) {
             justifyContent: "space-between",
           }}
         >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Feather name="user" size={20} color="#62B6CB" />
-            <Text style={[styles.owner]}>Owner: {risk.item.owner}</Text>
-          </View>
-          {!mitigated && (
+          {!completed && (
             <TouchableOpacity
-              style={styles.editButton}
+              style={[styles.editButton, { marginLeft: "auto" }]}
               onPress={() => setFormOpen(true)}
             >
               <MaterialCommunityIcons
                 name="circle-edit-outline"
                 size={20}
-                color="#62B6CB"
+                color={colorPallate.theme}
               />
             </TouchableOpacity>
           )}
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          {mitigated ? (
+          {completed ? (
             <AntDesign name="Safety" size={20} color="#62B6CB" />
           ) : (
-            <AntDesign name="warning" size={20} color="#BD2236" />
+            <AntDesign name="Safety" size={20} color="#62B6CB" />
           )}
           <Text style={[styles.risktitle, { marginLeft: 10 }]}>
-            {risk.item.risk}
+            {audit.item.businessFunction}
           </Text>
         </View>
-        <Text style={styles.risktitle}>Assets</Text>
-        <Text style={styles.text}>{risk.item.assets}</Text>
-        {risk.item.addInventory && (
-          <Text style={[styles.text]}>
-            ( Added to {formTitle.toLowerCase()} inventory )
-          </Text>
-        )}
-        <Text style={styles.risktitle}>Description</Text>
-        <Text style={styles.text}>{risk.item.detail}</Text>
-        <Text style={styles.risktitle}>Controls and Mitigatins</Text>
-        <Text style={styles.text}>{risk.item.mitigation}</Text>
+        <Text style={styles.risktitle}>Non Conformities</Text>
+        {renderList(audit.item.nonConformity)}
 
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <View style={styles.levelContainer}>
-            <Text style={styles.risktitle}>
-              Consequences: {risk.item.consequence}
-            </Text>
-            <Bar level={risk.item.consequence} />
-          </View>
-          <View style={styles.levelContainer}>
-            <Text style={styles.risktitle}>
-              Likelihood: {risk.item.likelyhood}
-            </Text>
-            <Bar level={risk.item.likelyhood} />
-          </View>
-        </View>
+        <Text style={styles.risktitle}>Conformance</Text>
+        {renderList(audit.item.conformance)}
+
+        <Text style={styles.risktitle}>Risks</Text>
+        <Text style={styles.text}>{audit.item.risk}</Text>
+        <Text style={styles.risktitle}>Opportunity for Improvement</Text>
+        <Text style={styles.text}>{audit.item.imprvOpportun}</Text>
+
         <View
           style={{
             flexDirection: "row",
@@ -155,11 +143,11 @@ function DetailView({ risk, updateRisk, addRisk, closeDetailView, formTitle }) {
             marginVertical: 7,
           }}
         >
-          <Fontisto name="clock" size={16} color="#62B6CB" />
-          <Text style={[styles.time]}>Raised on : {risk.item.submission}</Text>
+          <Fontisto name="clock" size={16} color={colorPallate.theme} />
+          <Text style={[styles.time]}>Date : {audit.item.scheduleDate}</Text>
         </View>
 
-        {mitigated && (
+        {completed && (
           <View
             style={{
               flexDirection: "row",
@@ -167,23 +155,10 @@ function DetailView({ risk, updateRisk, addRisk, closeDetailView, formTitle }) {
               marginVertical: 7,
             }}
           >
-            <Fontisto name="clock" size={16} color="#62B6CB" />
-            <Text style={[styles.time]}>Closed on : {risk.item.closed}</Text>
+            <Fontisto name="clock" size={16} color={colorPallate.theme} />
+            <Text style={[styles.time]}>Closed on : {audit.item.closed}</Text>
           </View>
         )}
-
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginVertical: 7,
-          }}
-        >
-          <Ionicons name="md-open" size={16} color="#62B6CB" />
-          <Text style={[styles.time]}>
-            Raised By : Reyad (Will Be automated)
-          </Text>
-        </View>
 
         <View style={styles.tiked}>
           <AntDesign
@@ -194,18 +169,26 @@ function DetailView({ risk, updateRisk, addRisk, closeDetailView, formTitle }) {
           />
           {checkOpen && (
             <>
-              <Text style={[styles.text, { marginHorizontal: 8 }]}>
-                {mitigated ? "Mitigated" : "Close"}
+              <Text
+                style={[
+                  styles.text,
+                  { marginHorizontal: 8, color: colorPallate.secondary },
+                ]}
+              >
+                {completed ? "Completed" : "Complete"}
               </Text>
-              {!mitigated && (
+              {!completed && (
                 <CheckBox
                   value={false}
-                  tintColors={{ true: "#1B4965", false: "#1B4965" }}
+                  tintColors={{
+                    true: colorPallate.secondary,
+                    false: colorPallate.secondary,
+                  }}
                   onChange={() => {
                     setTimeout(() => {
-                      risk.item.mitigated = true;
-                      risk.item.closed = getClosedTime();
-                      updateRisk(risk.item);
+                      audit.item.completed = true;
+                      audit.item.closed = getClosedTime();
+                      updateAuditLists(audit.item);
                     }, 1500);
                   }}
                 />
@@ -228,7 +211,7 @@ const styles = StyleSheet.create({
     width: 26,
     borderRadius: 15,
     borderWidth: 1,
-    borderColor: "#62B6CB",
+    borderColor: colorPallate.theme,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -288,7 +271,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 50,
     borderBottomLeftRadius: 50,
     paddingHorizontal: 10,
-    backgroundColor: "#5FA8D3",
+    backgroundColor: colorPallate.theme,
     alignSelf: "flex-start",
     paddingVertical: 5,
     marginVertical: 5,

@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { colorPallate } from "./GlobalStyleVars";
 
 function Header({ props }) {
   // console.log(props.navigation.toggleDrawer);
@@ -15,7 +16,7 @@ function Header({ props }) {
         MS Systems
       </Text>
       <TouchableOpacity onPress={props.navigation.toggleDrawer}>
-        <Ionicons name="md-menu" size={32} color="white" />
+        <Ionicons name="md-menu" size={32} color={colorPallate.primary} />
       </TouchableOpacity>
     </View>
   );
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
   header: {
     height: 60,
     padding: 15,
-    backgroundColor: "#1B4965",
+    backgroundColor: colorPallate.theme,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: "left",
     fontSize: 20,
-    color: "white",
+    color: colorPallate.primary,
     flexDirection: "row",
   },
 });

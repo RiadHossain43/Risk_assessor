@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
 import Scheduleform from "./Scheduleform";
-
+import { colorPallate } from "../GlobalStyleVars";
 function ScheduleBtn({ addSchedule }) {
   const [formOpen, setFormOpen] = useState(false);
 
@@ -30,21 +30,25 @@ function ScheduleBtn({ addSchedule }) {
               style={styles.backbtn}
             />
           </TouchableOpacity>
-          <Text style={{ fontSize: 20 }}>Make a schedule</Text>
+          <Text style={{ fontSize: 20 }}>Schedule Audit</Text>
         </View>
 
         <ScrollView style={styles.modal}>
-          <Scheduleform />
+          <Scheduleform formClose={formClose} addSchedule={addSchedule} />
         </ScrollView>
       </Modal>
 
       <View style={styles.btn}>
-        <Text style={styles.text}>Make a Schedule</Text>
+        <Text style={styles.text}>Schedule Audit</Text>
         <TouchableOpacity
           style={{ marginLeft: 10 }}
           onPress={() => setFormOpen(true)}
         >
-          <Ionicons name="ios-add-circle" size={35} color="#1B4965" />
+          <Ionicons
+            name="ios-add-circle"
+            size={35}
+            color={colorPallate.secondary}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -58,7 +62,7 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 10,
-    backgroundColor: "#5FA8D3",
+    backgroundColor: colorPallate.theme,
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 13,
@@ -71,10 +75,10 @@ const styles = StyleSheet.create({
   formtop: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#F2FFFE",
+    backgroundColor: colorPallate.primary,
   },
   modal: {
-    backgroundColor: "#F2FFFE",
+    backgroundColor: colorPallate.primary,
   },
   btn: {
     flexDirection: "row",
@@ -83,16 +87,10 @@ const styles = StyleSheet.create({
   text: {
     textAlign: "left",
     fontSize: 18,
-    color: "white",
+    color: colorPallate.primary,
   },
   centeralign: {
     marginVertical: "auto",
-  },
-  scores: {
-    padding: 8,
-    borderWidth: 1,
-    backgroundColor: "darkgray",
-    color: "white",
   },
 });
 

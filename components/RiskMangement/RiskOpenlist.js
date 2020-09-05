@@ -194,7 +194,8 @@ function RiskopenList({ formTitle }) {
     {
       key: (Math.random() - Math.random()).toString(),
       risk: "Risk title will be here",
-      assets: "",
+      assets: "Asset title here",
+      addInventory: true,
       detail: `This is the demo for the risk detail. Customers will write short descriptions on the risk form. This will show here.`,
       mitigation: `Controls and  mitigations for the will be displayed here. This is also dinamically added for the risk form.`,
       consequence: 4,
@@ -210,7 +211,8 @@ function RiskopenList({ formTitle }) {
     {
       key: (Math.random() - Math.random()).toString(),
       risk: "Risk title that are Closed",
-      assets: "",
+      assets: "Asset title here",
+      addInventory: true,
       detail: `This view demonstrates the risk that were previously added and closed by checking the tikbox. These are just the records for the previously assessed risk`,
       mitigation: `Controls and  mitigations for the will be displayed here. This is also dinamically added for the risk form.`,
       consequence: 1,

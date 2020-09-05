@@ -1,9 +1,14 @@
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import React, { useState } from "react";
-
+import { colorPallate } from "../GlobalStyleVars";
 import RiskOpenlist from "./RiskOpenlist";
-import { Feather, Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import {
+  Feather,
+  Ionicons,
+  FontAwesome5,
+  SimpleLineIcons,
+} from "@expo/vector-icons";
 const Tab = createMaterialBottomTabNavigator();
 
 const assets = {
@@ -11,6 +16,7 @@ const assets = {
   software: "Software",
   people: "People",
   premises: "Premises",
+  org: "Organization",
 };
 
 function Hardware() {
@@ -27,13 +33,15 @@ function People() {
 function Premises() {
   return <RiskOpenlist formTitle={assets.premises} />;
 }
-
+function Organization() {
+  return <RiskOpenlist formTitle={assets.org} />;
+}
 function MyTabs() {
   return (
     <Tab.Navigator
       initialRouteName="Hardware"
-      activeColor="#153243"
-      inactiveColor="#5FA8D3"
+      activeColor={colorPallate.theme}
+      inactiveColor={colorPallate.primaryFocus}
       barStyle={{ backgroundColor: "white" }}
     >
       <Tab.Screen
@@ -53,6 +61,16 @@ function MyTabs() {
           tabBarLabel: "Software",
           tabBarIcon: ({ color }) => (
             <Feather name="monitor" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Org"
+        component={Organization}
+        options={{
+          tabBarLabel: "Organization",
+          tabBarIcon: ({ color }) => (
+            <SimpleLineIcons name="organization" size={24} color={color} />
           ),
         }}
       />
@@ -82,8 +100,8 @@ function MyTabs() {
 
 export default function () {
   return (
-    <NavigationContainer>
-      <MyTabs />
-    </NavigationContainer>
+    // <NavigationContainer>
+    <MyTabs />
+    // </NavigationContainer>
   );
 }

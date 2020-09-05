@@ -50,6 +50,9 @@ function RiskAdd({ addRisk, formClose, editRisk, closeDetailView, formTitle }) {
   let [lkhd, setLkhd] = useState(
     editRisk == undefined ? 1 : editRisk.item.likelyhood
   );
+  let [added, setAdded] = useState(
+    editRisk == undefined ? false : editRisk.item.addInventory
+  );
   let levelColor = ["#62B6CB", "#BEE9E8", "#F5AD1C", "#FE4E00", "#FF1C53"];
   let setconsqLevelcolor = () => {
     return levelColor[consq - 1];
@@ -72,6 +75,7 @@ function RiskAdd({ addRisk, formClose, editRisk, closeDetailView, formTitle }) {
     ).toString(),
     risk: "",
     assets: "",
+    addInventory: false,
     detail: "",
     mitigation: "",
     consequence: 1,
@@ -90,6 +94,7 @@ function RiskAdd({ addRisk, formClose, editRisk, closeDetailView, formTitle }) {
           values.submission = getSubmissionTime();
           values.consequence = consq;
           values.likelyhood = lkhd;
+          values.addInventory = added;
           addRisk(values);
           formClose();
           editRisk == undefined && setInventoryData(formTitle);
@@ -106,11 +111,15 @@ function RiskAdd({ addRisk, formClose, editRisk, closeDetailView, formTitle }) {
                 value={props.values.assets}
               />
               <View style={styles.inventorybtn}>
-                <Text>Add to inventory</Text>
+                <Text>
+                  {added
+                    ? `Added to ${formTitle.toLowerCase()} inventory`
+                    : "Add to inventory"}
+                </Text>
                 <CheckBox
-                  value={false}
+                  value={added}
                   tintColors={{ true: "#1B4965", false: "#1B4965" }}
-                  onChange={() => {}}
+                  onValueChange={setAdded}
                 />
               </View>
             </View>

@@ -7,19 +7,21 @@ import {
   FlatList,
   TouchableOpacity,
   Modal,
+  ColorPropType,
 } from "react-native";
 
 import Schedulebtn from "./Scheduletbn";
+import CompIncompBtn from "./compIncombtn";
 import {
   Fontisto,
   Foundation,
   AntDesign,
   Ionicons,
-  Octicons,
+  FontAwesome5,
 } from "@expo/vector-icons";
-// import DetailView from "./DetailView";
-
-function ListItem({ audit, updateRisk, formTitle, addRisk }) {
+import DetailView from "./DetailView";
+import { colorPallate } from "../GlobalStyleVars";
+function ListItem({ audit, updateAuditLists, formTitle, addSchedule }) {
   let [detailOpen, setDetailOpen] = useState(false);
 
   function closeDetailView() {
@@ -28,7 +30,90 @@ function ListItem({ audit, updateRisk, formTitle, addRisk }) {
 
   return (
     <View style={styles.Litem}>
-      {/* {detailOpen && (
+      {detailOpen && (
+        <ScrollView style={[{}]}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <TouchableOpacity
+              style={styles.listback}
+              onPress={() => {
+                setDetailOpen(false);
+                console.log("detail view");
+              }}
+            >
+              <Text style={{ fontSize: 16, color: colorPallate.white }}>
+                Back
+              </Text>
+              <AntDesign
+                name="downcircleo"
+                size={24}
+                color={colorPallate.primary}
+                style={{ marginHorizontal: 9 }}
+              />
+            </TouchableOpacity>
+          </View>
+          <DetailView
+            audit={audit}
+            updateAuditLists={updateAuditLists}
+            addSchedule={addSchedule}
+          />
+        </ScrollView>
+      )}
+
+      {!detailOpen && (
+        <>
+          <View style={[styles.row, { alignItems: "center" }]}>
+            <Foundation
+              name="clipboard-pencil"
+              size={20}
+              color={colorPallate.theme}
+              style={{ marginRight: 10 }}
+            />
+            <Text style={styles.auditTitle}>{audit.item.businessFunction}</Text>
+            <TouchableOpacity
+              onPress={() => setDetailOpen(true)}
+              style={{ marginLeft: "auto" }}
+            >
+              <FontAwesome5
+                name="expand"
+                size={18}
+                color={colorPallate.theme}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={[styles.row]}></View>
+          <View
+            style={[styles.row, { marginVertical: 7, alignItems: "center" }]}
+          >
+            <Fontisto name="clock" size={20} color={colorPallate.theme} />
+            <Text style={{ marginHorizontal: 10 }}>
+              Date: {audit.item.scheduleDate}
+            </Text>
+            <TouchableOpacity style={styles.downloads}>
+              <Ionicons
+                name="md-download"
+                size={20}
+                color={colorPallate.primary}
+                style={{ marginRight: 10 }}
+              />
+              <Text style={styles.downloadText}>Reports</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
+    </View>
+  );
+}
+
+function ListItemCompleted({ audit, updateAuditLists, formTitle, addRisk }) {
+  let [detailOpen, setDetailOpen] = useState(false);
+
+  function closeDetailView() {
+    setDetailOpen(false);
+  }
+
+  return (
+    <View style={styles.Litem}>
+      <Modal visible={detailOpen} animationType={"fade"}>
         <ScrollView style={[{}]}>
           <TouchableOpacity
             style={styles.listback}
@@ -37,22 +122,19 @@ function ListItem({ audit, updateRisk, formTitle, addRisk }) {
               console.log("detail view");
             }}
           >
-            <Text style={{ fontSize: 16, color: "white" }}>Back </Text>
+            <Text style={{ fontSize: 16, color: colorPallate.primary }}>
+              Back{" "}
+            </Text>
             <AntDesign
               name="downcircleo"
               size={24}
-              color="black"
+              color={colorPallate.primaryFocus}
               style={{ marginHorizontal: 9 }}
             />
           </TouchableOpacity>
-          <DetailView
-            risk={risk}
-            updateRisk={updateRisk}
-            addRisk={addRisk}
-            closeDetailView={closeDetailView}
-          />
+          <DetailView audit={audit} updateAuditLists={updateAuditLists} />
         </ScrollView>
-      )} */}
+      </Modal>
 
       {!detailOpen && (
         <>
@@ -60,33 +142,37 @@ function ListItem({ audit, updateRisk, formTitle, addRisk }) {
             <Foundation
               name="clipboard-pencil"
               size={20}
-              color="#62B6CB"
+              color={colorPallate.theme}
               style={{ marginRight: 10 }}
             />
             <Text style={styles.auditTitle}>{audit.item.businessFunction}</Text>
-            <TouchableOpacity style={{ marginLeft: "auto" }}>
-              <Octicons name="info" size={20} color="#62B6CB" />
+            <TouchableOpacity
+              onPress={() => setDetailOpen(true)}
+              style={{ marginLeft: "auto" }}
+            >
+              <FontAwesome5
+                name="expand"
+                size={18}
+                color={colorPallate.theme}
+              />
             </TouchableOpacity>
           </View>
           <View style={[styles.row]}></View>
           <View
             style={[styles.row, { marginVertical: 7, alignItems: "center" }]}
           >
-            <Fontisto name="clock" size={20} color="#62B6CB" />
+            <Fontisto name="clock" size={20} color={colorPallate.theme} />
             <Text style={{ marginHorizontal: 10 }}>
-              Date: {audit.item.submission}
+              Closed: {audit.item.closed}
             </Text>
-            <TouchableOpacity
-              style={styles.downloads}
-              // onPress={() => setDetailOpen(true)}
-            >
+            <TouchableOpacity style={styles.downloads}>
               <Ionicons
                 name="md-download"
                 size={20}
-                color="#5FA8D3"
+                color={colorPallate.primary}
                 style={{ marginRight: 10 }}
               />
-              <Text style={styles.downloadText}>Download Reports</Text>
+              <Text style={styles.downloadText}>Reports</Text>
             </TouchableOpacity>
           </View>
         </>
@@ -100,51 +186,42 @@ function AuditList() {
     {
       key: (Math.random() - Math.random()).toString(),
       businessFunction: "Suitable business function here",
-      detail: `This is the demo for the risk detail. Customers will write short descriptions on the risk form. This will show here.`,
-      mitigation: `Controls and  mitigations for the will be displayed here. This is also dinamically added for the risk form.`,
-      consequence: 4,
-      likelyhood: 3,
+      nonConformity: ["Item1", "item2"],
+      conformance: ["Itewm1", "item2"],
       submission: "3 August 2020",
+      risk: "This is for risk",
+      imprvOpportun: "For improvement",
       closed: "",
-      mitigated: false,
-      owner: "Name that was added",
-    },
-    {
-      key: (Math.random() - Math.random()).toString(),
-      businessFunction: "Suitable business function here",
-      detail: `This is the demo for the risk detail. Customers will write short descriptions on the risk form. This will show here.`,
-      mitigation: `Controls and  mitigations for the will be displayed here. This is also dinamically added for the risk form.`,
-      consequence: 4,
-      likelyhood: 3,
-      submission: "3 August 2020",
-      closed: "",
-      mitigated: false,
-      owner: "Name that was added",
-    },
-    {
-      key: (Math.random() - Math.random()).toString(),
-      businessFunction: "Suitable business function here",
-      detail: `This is the demo for the risk detail. Customers will write short descriptions on the risk form. This will show here.`,
-      mitigation: `Controls and  mitigations for the will be displayed here. This is also dinamically added for the risk form.`,
-      consequence: 4,
-      likelyhood: 3,
-      submission: "3 August 2020",
-      closed: "",
-      mitigated: false,
-      owner: "Name that was added",
+      completed: false,
+      scheduleDate: "10 October 2020",
     },
   ]);
 
-  let [activeRisk, setActiveRisk] = useState(true);
+  const [completedAudits, setCompletedAudits] = useState([
+    {
+      key: (Math.random() - Math.random()).toString(),
+      businessFunction: "Completed Business function here",
+      nonConformity: ["Item1", "item2"],
+      conformance: ["Itewm1", "item2"],
+      submission: "3 August 2020",
+      risk: "This is for risk",
+      imprvOpportun: "For improvement",
+      closed: "21 October 2020",
+      completed: true,
+      scheduleDate: "1 October 2020",
+    },
+  ]);
 
-  // const handleRiskTabs = {
-  //   activateRisks: () => {
-  //     setActiveRisk(true);
-  //   },
-  //   activateClosedRisks: () => {
-  //     setActiveRisk(false);
-  //   },
-  // };
+  let [activeAudit, setActiveAudit] = useState(true);
+
+  const handleAuditsTabs = {
+    activateAuditTab: () => {
+      setActiveAudit(true);
+    },
+    activateCompletedTab: () => {
+      setActiveAudit(false);
+    },
+  };
   const addSchedule = (risk) => {
     setAudits((currentAudits) => {
       let found = currentAudits.find((item) => item.key == risk.key);
@@ -155,34 +232,51 @@ function AuditList() {
           item.key == risk.key ? risk : item
         );
     });
+    console.log(audits);
   };
-  // const updateRisk = (risk) => {
-  //   setRisks((currentAudits) => {
-  //     return currentAudits
-  //       .map((riskitem) => (riskitem.key == risk.key ? risk : riskitem))
-  //       .filter((riskitem) => riskitem.mitigated == false);
-  //   });
-  //   setClosedRisks((currentAudits) => {
-  //     return [...currentAudits, risk];
-  //   });
-  //   console.log(closedRisks);
-  // };
+  const updateAuditLists = (audit) => {
+    setAudits((currentAudits) => {
+      return currentAudits
+        .map((audititem) => (audititem.key == audit.key ? audit : audititem))
+        .filter((audititem) => audititem.completed == false);
+    });
+    setCompletedAudits((currentAudits) => {
+      return [...currentAudits, audit];
+    });
+    console.log(completedAudits);
+  };
 
   return (
     <View style={styles.container}>
+      <CompIncompBtn handleAuditsTabs={handleAuditsTabs} />
       <Schedulebtn addSchedule={addSchedule} />
-      <FlatList
-        style={styles.list}
-        data={audits}
-        renderItem={(audit) => (
-          <ListItem
-            audit={audit}
-            // updateRisk={updateRisk}
-            // formTitle={formTitle}
-            // addRisk={addRisk}
-          />
-        )}
-      />
+      {activeAudit ? (
+        <FlatList
+          style={styles.list}
+          data={audits}
+          renderItem={(audit) => (
+            <ListItem
+              audit={audit}
+              updateAuditLists={updateAuditLists}
+              // formTitle={formTitle}
+              addSchedule={addSchedule}
+            />
+          )}
+        />
+      ) : (
+        <FlatList
+          style={styles.list}
+          data={completedAudits}
+          renderItem={(audit) => (
+            <ListItemCompleted
+              audit={audit}
+              updateAuditLists={updateAuditLists}
+              // formTitle={formTitle}
+              // addRisk={addRisk}
+            />
+          )}
+        />
+      )}
     </View>
   );
 }
@@ -192,7 +286,7 @@ const styles = StyleSheet.create({
     marginVertical: 7,
     fontSize: 16,
     fontWeight: "bold",
-    color: "#62B6CB",
+    color: colorPallate.theme,
   },
   container: {
     flex: 1,
@@ -201,7 +295,7 @@ const styles = StyleSheet.create({
   downloads: {
     paddingVertical: 5,
     paddingHorizontal: 14,
-    borderColor: "#5FA8D3",
+    backgroundColor: colorPallate.primaryFocus,
     borderWidth: 1,
     marginLeft: "auto",
     flexDirection: "row",
@@ -212,7 +306,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   downloadText: {
-    color: "#5FA8D3",
+    color: colorPallate.primary,
   },
 
   row: {
@@ -223,7 +317,7 @@ const styles = StyleSheet.create({
   },
   listback: {
     flexDirection: "row",
-    backgroundColor: "#5FA8D3",
+    backgroundColor: colorPallate.primaryFocus,
     alignItems: "center",
     padding: 10,
     borderTopRightRadius: 50,
@@ -233,7 +327,7 @@ const styles = StyleSheet.create({
   },
 
   Litem: {
-    backgroundColor: "white",
+    backgroundColor: colorPallate.secondary,
     paddingVertical: 5,
     paddingHorizontal: 10,
     marginHorizontal: 10,
