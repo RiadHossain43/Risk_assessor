@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import {
   Fontisto,
-  Feather,
+  Foundation,
   Ionicons,
   MaterialCommunityIcons,
   AntDesign,
@@ -65,11 +65,21 @@ function DetailView({
     setFormOpen(false);
     console.log("fired editform");
   }
-  function renderList(list) {
+  function renderList(list, downloadable = false) {
     return list.map((item, index) => (
-      <Text style={styles.text}>
-        {index + 1} {item}
-      </Text>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Text style={styles.text}>
+          {index + 1} {item}
+        </Text>
+        {downloadable && (
+          <Ionicons
+            name="md-download"
+            size={20}
+            color={colorPallate.theme}
+            style={{ marginLeft: "auto" }}
+          />
+        )}
+      </View>
     ));
   }
   return (
@@ -117,9 +127,17 @@ function DetailView({
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           {completed ? (
-            <AntDesign name="Safety" size={20} color="#62B6CB" />
+            <Foundation
+              name="clipboard-pencil"
+              size={20}
+              color={colorPallate.theme}
+            />
           ) : (
-            <AntDesign name="Safety" size={20} color="#62B6CB" />
+            <Foundation
+              name="clipboard-pencil"
+              size={20}
+              color={colorPallate.theme}
+            />
           )}
           <Text style={[styles.risktitle, { marginLeft: 10 }]}>
             {audit.item.businessFunction}
@@ -156,10 +174,13 @@ function DetailView({
             }}
           >
             <Fontisto name="clock" size={16} color={colorPallate.theme} />
-            <Text style={[styles.time]}>Closed on : {audit.item.closed}</Text>
+            <Text style={[styles.time]}>
+              Completed date: {audit.item.closed}
+            </Text>
           </View>
         )}
-
+        <Text style={styles.risktitle}>Domuments</Text>
+        {renderList(audit.item.docs, true)}
         <View style={styles.tiked}>
           <AntDesign
             name="leftcircle"

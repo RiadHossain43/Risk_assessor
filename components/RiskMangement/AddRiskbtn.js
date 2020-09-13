@@ -10,7 +10,7 @@ import {
 import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
 import RiskAdd from "./RiskAdd";
 
-function AddRiskbtn({ addRisk, formTitle }) {
+function AddRiskbtn({ __Cstyle, addRisk, formTitle }) {
   const [formOpen, setFormOpen] = useState(false);
   // console.log(formTitle);
   function formClose() {
@@ -19,7 +19,7 @@ function AddRiskbtn({ addRisk, formTitle }) {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
       <Modal visible={formOpen} animationType={"fade"}>
         <View style={styles.formtop}>
           <TouchableOpacity onPress={() => setFormOpen(false)}>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#5FA8D3",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 13,
+    marginVertical: 13,
     borderTopRightRadius: 60,
     borderBottomRightRadius: 60,
     alignItems: "center",

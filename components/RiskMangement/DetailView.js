@@ -15,11 +15,12 @@ import {
   MaterialCommunityIcons,
   AntDesign,
   Entypo,
+  SimpleLineIcons,
 } from "@expo/vector-icons";
 
 import Bar from "./customProgressbar";
 import RiskAdd from "./RiskAdd";
-
+import Acceptform from "./Acceptform";
 function getClosedTime() {
   const monthNames = [
     "January",
@@ -49,11 +50,19 @@ function getClosedTime() {
   return time;
 }
 
-function DetailView({ risk, updateRisk, addRisk, closeDetailView, formTitle }) {
+function DetailView({
+  risk,
+  updateRisk,
+  addRisk,
+  closeDetailView,
+  formTitle,
+  AcceptRiskList,
+  updateAcceptRiskList,
+}) {
   const [formOpen, setFormOpen] = useState(false);
   let [mitigated, setMitigated] = useState(risk.item.mitigated);
   let [checkOpen, setCheckopen] = useState(false);
-
+  let [acceptOpen, setAcceptOpen] = useState(false);
   function handleClosebtn() {
     checkOpen ? setCheckopen(false) : setCheckopen(true);
   }
@@ -87,7 +96,15 @@ function DetailView({ risk, updateRisk, addRisk, closeDetailView, formTitle }) {
           />
         </ScrollView>
       </Modal>
-      <View style={mitigated ? styles.risk : {}}>
+      {!risk.item.accepted && (
+        <Acceptform
+          acceptOpen={acceptOpen}
+          setAcceptOpen={setAcceptOpen}
+          acceptRisk={risk}
+          AcceptRiskList={AcceptRiskList}
+        />
+      )}
+      <View style={mitigated || risk.item.accepted ? styles.risk : {}}>
         <View
           style={{
             flexDirection: "row",
@@ -99,17 +116,23 @@ function DetailView({ risk, updateRisk, addRisk, closeDetailView, formTitle }) {
             <Feather name="user" size={20} color="#62B6CB" />
             <Text style={[styles.owner]}>Owner: {risk.item.owner}</Text>
           </View>
-          {!mitigated && (
-            <TouchableOpacity
-              style={styles.editButton}
-              onPress={() => setFormOpen(true)}
-            >
-              <MaterialCommunityIcons
-                name="circle-edit-outline"
-                size={20}
-                color="#62B6CB"
-              />
-            </TouchableOpacity>
+          {!mitigated && !risk.item.accepted && (
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                style={styles.editButton}
+                onPress={() => setFormOpen(true)}
+              >
+                <MaterialCommunityIcons
+                  name="circle-edit-outline"
+                  size={20}
+                  color="#62B6CB"
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => setAcceptOpen(true)}>
+                <SimpleLineIcons name="drawer" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
           )}
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -205,7 +228,9 @@ function DetailView({ risk, updateRisk, addRisk, closeDetailView, formTitle }) {
                     setTimeout(() => {
                       risk.item.mitigated = true;
                       risk.item.closed = getClosedTime();
-                      updateRisk(risk.item);
+                      !risk.item.accepted
+                        ? updateRisk(risk.item)
+                        : updateAcceptRiskList(risk.item);
                     }, 1500);
                   }}
                 />
@@ -231,6 +256,7 @@ const styles = StyleSheet.create({
     borderColor: "#62B6CB",
     justifyContent: "center",
     alignItems: "center",
+    marginHorizontal: 10,
   },
   formtop: {
     flexDirection: "row",

@@ -14,6 +14,7 @@ import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
 import { setInventoryData } from "../DashboardDataTest/InventoriesData";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { colorPallate } from "../GlobalStyleVars";
+import OpenDocs from "./OpenDocs";
 const monthNames = [
   "January",
   "February",
@@ -56,6 +57,9 @@ function Scheduleform({
   );
   const [conformancelst, setConformancelst] = useState(
     editAudit == undefined ? [] : editAudit.item.conformance
+  );
+  const [doclst, setDoclst] = useState(
+    editAudit == undefined ? [] : editAudit.item.docs
   );
   const [schedule, setSchedule] = useState(
     editAudit == undefined ? "" : editAudit.item.scheduleDate
@@ -101,6 +105,7 @@ function Scheduleform({
     ).toString(),
     nonConformity: [],
     conformance: [],
+    docs: [],
     businessFunction: "",
     risk: "",
     imprvOpportun: "",
@@ -118,6 +123,7 @@ function Scheduleform({
           values.submission = getSubmissionTime();
           values.nonConformity = nonCoformitylst;
           values.conformance = conformancelst;
+          values.docs = doclst;
           values.scheduleDate = schedule;
           addSchedule(values);
           formClose();
@@ -265,6 +271,7 @@ function Scheduleform({
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
             />
+            <OpenDocs setDoclst={setDoclst} />
             <TouchableOpacity
               style={styles.riskaddbtn}
               onPress={props.handleSubmit}

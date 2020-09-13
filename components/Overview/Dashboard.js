@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Summery } from "./Risksummery";
@@ -8,26 +8,34 @@ import Auditsummery from "./Auditsummery";
 import Managementsummery from "./Managementsummery";
 import { getInventoryData } from "../DashboardDataTest/InventoriesData";
 function Inventories() {
-  let data = getInventoryData();
-  console.log(data);
+  let data;
+  useEffect(() => {
+    data = getInventoryData();
+    console.log(data);
+  });
+
   return (
     <View style={styles.inventories}>
       <Text style={styles.inventory}>Inventories</Text>
       <View style={styles.assetbtnCont}>
         <TouchableOpacity style={styles.assetbtn}>
-          <Text style={styles.riskamount}>{data.hardware}</Text>
+          <Text style={styles.riskamount}>0</Text>
           <Text style={styles.text}>Hardware</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.assetbtn}>
-          <Text style={styles.riskamount}>{data.software}</Text>
+          <Text style={styles.riskamount}>0</Text>
           <Text style={styles.text}>Software</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.assetbtn}>
-          <Text style={styles.riskamount}>{data.people}</Text>
+          <Text style={styles.riskamount}>0</Text>
+          <Text style={styles.text}>Org</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.assetbtn}>
+          <Text style={styles.riskamount}>0</Text>
           <Text style={styles.text}>People</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.assetbtn}>
-          <Text style={styles.riskamount}>{data.premises}</Text>
+          <Text style={styles.riskamount}>0</Text>
           <Text style={styles.text}>Premises</Text>
         </TouchableOpacity>
       </View>
@@ -37,21 +45,23 @@ function Inventories() {
 
 function Dashboard() {
   return (
-    <View style={styles.board}>
-      <View style={styles.sections}>
+    <View>
+      <View style={[styles.sections, { marginVertical: 0 }]}>
         <Inventories />
       </View>
-      <View style={styles.sections}>
-        <Summery />
-      </View>
-      <View style={styles.sections}>
-        <Auditsummery />
-      </View>
-      <View style={styles.sections}>
-        <Managementsummery />
-      </View>
-      <View style={styles.sections}>
-        <ManagementChart />
+      <View style={styles.board}>
+        <View style={styles.sections}>
+          <Summery />
+        </View>
+        <View style={styles.sections}>
+          <Auditsummery />
+        </View>
+        <View style={styles.sections}>
+          <Managementsummery />
+        </View>
+        <View style={styles.sections}>
+          <ManagementChart />
+        </View>
       </View>
     </View>
   );
@@ -92,14 +102,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#62B6CB",
   },
-  summerycont: {
-    paddingVertical: 15,
-    paddingHorizontal: "auto",
-    display: "flex",
 
-    justifyContent: "center",
-    flexWrap: "wrap",
-  },
   riskamount: {
     height: 24,
     width: 24,
@@ -109,6 +112,14 @@ const styles = StyleSheet.create({
     fontSize: 11,
     textAlign: "center",
     paddingVertical: 5,
+  },
+  summerycont: {
+    paddingVertical: 15,
+    paddingHorizontal: "auto",
+    display: "flex",
+
+    justifyContent: "center",
+    flexWrap: "wrap",
   },
   sections: {
     marginVertical: 5,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,13 +8,13 @@ import {
   TouchableOpacity,
   Modal,
 } from "react-native";
-
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import AddRiskbtn from "./AddRiskbtn";
 import OpenClosedbtn from "./OpenClosebtn";
 import { Fontisto, AntDesign, Ionicons } from "@expo/vector-icons";
 import DetailView from "./DetailView";
 
-function ListItem({ risk, updateRisk, formTitle, addRisk }) {
+function ListItem({ risk, updateRisk, formTitle, addRisk, AcceptRiskList }) {
   let [detailOpen, setDetailOpen] = useState(false);
 
   function closeDetailView() {
@@ -53,7 +53,14 @@ function ListItem({ risk, updateRisk, formTitle, addRisk }) {
             </Text>
           </View>
           <ScrollView style={styles.detailContainer}>
-            <DetailView risk={risk} updateRisk={updateRisk} addRisk={addRisk} />
+             <DetailView
+            risk={risk}
+            updateRisk={updateRisk}
+            addRisk={addRisk}
+            closeDetailView={closeDetailView}
+            formTitle={formTitle}
+            AcceptRiskList={AcceptRiskList}
+          />
           </ScrollView>
         </View>
       </Modal> */}
@@ -81,6 +88,7 @@ function ListItem({ risk, updateRisk, formTitle, addRisk }) {
             addRisk={addRisk}
             closeDetailView={closeDetailView}
             formTitle={formTitle}
+            AcceptRiskList={AcceptRiskList}
           />
         </ScrollView>
       )}
@@ -122,7 +130,7 @@ function ListItem({ risk, updateRisk, formTitle, addRisk }) {
   );
 }
 
-function ListItemClosed({ risk, updateRisk, formTitle }) {
+function ListItemClosed({ risk, updateRisk, formTitle, updateAcceptRiskList }) {
   let [detailOpen, setDetailOpen] = useState(false);
 
   return (
@@ -154,15 +162,21 @@ function ListItemClosed({ risk, updateRisk, formTitle }) {
             </Text>
           </View>
           <ScrollView style={{}}>
-            <DetailView risk={risk} updateRisk={updateRisk} />
+            <DetailView
+              risk={risk}
+              formTitle={formTitle}
+              updateRisk={updateRisk}
+              updateAcceptRiskList={updateAcceptRiskList}
+            />
           </ScrollView>
         </View>
       </Modal>
 
       <View style={[styles.row]}>
         <Text style={styles.risktitle}>{risk.item.risk}</Text>
+
         <Ionicons
-          name="md-done-all"
+          name="md-checkbox-outline"
           size={20}
           color="black"
           color="#62B6CB"
@@ -189,6 +203,69 @@ function ListItemClosed({ risk, updateRisk, formTitle }) {
   );
 }
 
+function OpenList({ risks, updateRisk, formTitle, addRisk, AcceptRiskList }) {
+  return (
+    <>
+      <AddRiskbtn addRisk={addRisk} formTitle={formTitle} />
+      <FlatList
+        style={styles.list}
+        data={risks}
+        renderItem={(risk) => (
+          <ListItem
+            risk={risk}
+            updateRisk={updateRisk}
+            formTitle={formTitle}
+            addRisk={addRisk}
+            AcceptRiskList={AcceptRiskList}
+          />
+        )}
+      />
+    </>
+  );
+}
+
+function ClosedList({ closedRisks, updateRisk, formTitle, addRisk }) {
+  return (
+    <>
+      <FlatList
+        style={styles.list}
+        data={closedRisks}
+        renderItem={(risk) => (
+          <ListItemClosed
+            risk={risk}
+            updateRisk={updateRisk}
+            formTitle={formTitle}
+          />
+        )}
+      />
+    </>
+  );
+}
+
+function AcceptedList({
+  closedRisks,
+  acceptRisk,
+  formTitle,
+  updateAcceptRiskList,
+}) {
+  return (
+    <>
+      <FlatList
+        style={styles.list}
+        data={closedRisks}
+        renderItem={(risk) => (
+          <ListItemClosed
+            risk={risk}
+            acceptRisk={acceptRisk}
+            formTitle={formTitle}
+            updateAcceptRiskList={updateAcceptRiskList}
+          />
+        )}
+      />
+    </>
+  );
+}
+
 function RiskopenList({ formTitle }) {
   const [risks, setRisks] = useState([
     {
@@ -204,6 +281,11 @@ function RiskopenList({ formTitle }) {
       closed: "",
       mitigated: false,
       owner: "Name that was added",
+      closed_by: "",
+      accepted_by: "",
+      acceptance_rational: "",
+      decession_maker: "",
+      accepted: false,
     },
   ]);
   // console.log(formTitle);
@@ -221,11 +303,39 @@ function RiskopenList({ formTitle }) {
       closed: "10 August 2020",
       mitigated: true,
       owner: "Name that was added",
+      closed_by: "",
+      accepted_by: "",
+      acceptance_rational: "",
+      decession_maker: "",
+      accepted: false,
     },
   ]);
 
+  const [acceptdRisks, setAcceptedRisks] = useState([
+    {
+      key: (Math.random() - Math.random()).toString(),
+      risk: "Risk title that are accepted",
+      assets: "Asset title here",
+      addInventory: true,
+      detail: `This view demonstrates the risk that were previously added and closed by checking the tikbox. These are just the records for the previously assessed risk`,
+      mitigation: `Controls and  mitigations for the will be displayed here. This is also dinamically added for the risk form.`,
+      consequence: 1,
+      likelyhood: 1,
+      submission: "3 August 2020",
+      closed: "10 August 2020",
+      mitigated: false,
+      owner: "Name that was added",
+      closed_by: "",
+      accepted_by: "",
+      acceptance_rational: "",
+      decession_maker: "",
+      accepted: true,
+    },
+  ]);
   let [activeRisk, setActiveRisk] = useState(true);
-
+  useEffect(() => {
+    console.log("Risk Added");
+  }, [risks]);
   const handleRiskTabs = {
     activateRisks: () => {
       setActiveRisk(true);
@@ -260,42 +370,74 @@ function RiskopenList({ formTitle }) {
     });
     console.log(closedRisks);
   };
+  const AcceptRiskList = (risk) => {
+    setRisks((currentRisks) => {
+      return currentRisks
+        .map((riskitem) => (riskitem.key == risk.key ? risk : riskitem))
+        .filter((riskitem) => riskitem.accepted == false);
+    });
+    setAcceptedRisks((currentRisks) => {
+      return [...currentRisks, risk];
+    });
+  };
+  const updateAcceptRiskList = (risk) => {
+    setAcceptedRisks((currentRisks) => {
+      return currentRisks
+        .map((riskitem) => (riskitem.key == risk.key ? risk : riskitem))
+        .filter((riskitem) => riskitem.mitigated == false);
+    });
+    setClosedRisks((currentRisks) => {
+      return [...currentRisks, risk];
+    });
+  };
+  const Tab = createMaterialTopTabNavigator();
 
   return (
     <View style={styles.container}>
-      <OpenClosedbtn handleRiskTabs={handleRiskTabs} />
-      <AddRiskbtn addRisk={addRisk} formTitle={formTitle} />
-      {activeRisk ? (
-        <FlatList
-          style={styles.list}
-          data={risks}
-          renderItem={(risk) => (
-            <ListItem
-              risk={risk}
+      <Tab.Navigator>
+        <Tab.Screen
+          name="Add"
+          children={() => (
+            <OpenList
+              risks={risks}
+              updateRisk={updateRisk}
+              formTitle={formTitle}
+              addRisk={addRisk}
+              AcceptRiskList={AcceptRiskList}
+            />
+          )}
+        />
+        <Tab.Screen
+          name="Closed"
+          children={() => (
+            <ClosedList
+              closedRisks={closedRisks}
               updateRisk={updateRisk}
               formTitle={formTitle}
               addRisk={addRisk}
             />
           )}
         />
-      ) : (
-        <FlatList
-          style={styles.list}
-          data={closedRisks}
-          renderItem={(risk) => (
-            <ListItemClosed
-              risk={risk}
-              updateRisk={updateRisk}
+        <Tab.Screen
+          name="Accepted"
+          children={() => (
+            <AcceptedList
+              closedRisks={acceptdRisks}
               formTitle={formTitle}
+              updateAcceptRiskList={updateAcceptRiskList}
             />
           )}
         />
-      )}
+      </Tab.Navigator>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  addriskbtn: {
+    position: "absolute",
+    top: 10,
+  },
   container: {
     flex: 1,
     backgroundColor: "#F2FFFE",

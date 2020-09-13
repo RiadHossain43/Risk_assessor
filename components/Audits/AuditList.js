@@ -188,6 +188,7 @@ function AuditList() {
       businessFunction: "Suitable business function here",
       nonConformity: ["Item1", "item2"],
       conformance: ["Itewm1", "item2"],
+      docs: ["document_one", "documnet_two"],
       submission: "3 August 2020",
       risk: "This is for risk",
       imprvOpportun: "For improvement",
@@ -203,6 +204,7 @@ function AuditList() {
       businessFunction: "Completed Business function here",
       nonConformity: ["Item1", "item2"],
       conformance: ["Itewm1", "item2"],
+      docs: ["document_one", "documnet_two"],
       submission: "3 August 2020",
       risk: "This is for risk",
       imprvOpportun: "For improvement",
@@ -331,7 +333,6 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 10,
     marginHorizontal: 10,
-    marginBottom: 12,
     shadowColor: "#CAE9FF",
     shadowOffset: {
       width: 0,
@@ -341,6 +342,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     borderRadius: 6,
+    marginBottom: 17,
   },
 });
 export default AuditList;

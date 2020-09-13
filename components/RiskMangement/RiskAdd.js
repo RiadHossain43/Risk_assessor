@@ -84,6 +84,10 @@ function RiskAdd({ addRisk, formClose, editRisk, closeDetailView, formTitle }) {
     owner: "",
     closed: "",
     mitigated: false,
+    closed_by: "",
+    accepted_by: "",
+    acceptance_rational: "",
+    decession_maker: "",
   };
   // console.log(editRisk != undefined && editRisk.item);
   return (
