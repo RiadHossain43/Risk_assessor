@@ -11,16 +11,18 @@ import { colorPallate } from "../GlobalStyleVars";
 // import DocumentPicker from "react-native-document-picker";
 import * as DocumentPicker from "expo-document-picker";
 
-function OpenDocs({ setDoclst }) {
+function OpenDocs({ setDoclst, doclst }) {
   let [URI, setURI] = useState("");
   let [progress, setProgress] = useState(0);
+  let [newDoc, setNewdoc] = useState("New Document");
+  let [docEditable, setDoceditable] = useState(true);
+
   let _pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
     console.log(result.uri);
     setURI(result.uri);
   };
-  let [newDoc, setNewdoc] = useState("New Document");
-  let [docEditable, setDoceditable] = useState(true);
+
   let uploadFile = async () => {
     console.log(URI);
     let filename = URI.split("/").pop();
@@ -62,7 +64,8 @@ function OpenDocs({ setDoclst }) {
           setDoceditable(true);
           setProgress(0);
           setURI("");
-        }, 2000);
+        }, 1300);
+        alert("Upload Successful");
       }
     });
     xhr.setRequestHeader("Content-Type", "multipart/form-data");
@@ -72,8 +75,19 @@ function OpenDocs({ setDoclst }) {
     // };
   };
 
+  function renderList(List) {
+    return List.map((item, index) => {
+      return (
+        <Text>
+          {index + 1}. {item} (Uploaded Successfully)
+        </Text>
+      );
+    });
+  }
+
   return (
     <View>
+      {renderList(doclst)}
       <TouchableOpacity
         onPress={() => {
           _pickDocument();

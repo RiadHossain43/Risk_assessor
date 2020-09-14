@@ -12,7 +12,34 @@ import {
 import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
 import RiskAdd from "./RiskAdd";
 import { Formik } from "formik";
+function getClosedTime() {
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
+  let date = new Date();
+  let day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+  let month = monthNames[date.getMonth()];
+  let year = date.getFullYear();
+  let hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+  let mimutes =
+    date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+  let ampm = hour > 12 ? "pm" : "am";
+  hour = hour > 12 ? "0" + (hour - 12) : hour;
+  let time = `${day} ${month} ${year}`; // ${hour}:${mimutes} ${ampm}
+  return time;
+}
 function Form({ acceptRisk, AcceptRiskList }) {
   console.log(AcceptRiskList);
   return (
@@ -21,6 +48,7 @@ function Form({ acceptRisk, AcceptRiskList }) {
         initialValues={acceptRisk.item}
         onSubmit={(values) => {
           values.accepted = true;
+          values.accepted_on = getClosedTime();
           AcceptRiskList(values);
         }}
       >

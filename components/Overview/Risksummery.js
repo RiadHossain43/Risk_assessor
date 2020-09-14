@@ -209,6 +209,17 @@ const styles = StyleSheet.create({
   summery: {
     width: "100%",
     paddingVertical: 5,
+    backgroundColor: "white",
+    paddingHorizontal: 5,
+    borderRadius: 6,
+    shadowColor: "#CAE9FF",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   text: {
     textAlign: "left",

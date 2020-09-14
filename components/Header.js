@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   header: {
     height: 60,
     padding: 15,
-    backgroundColor: colorPallate.theme,
+    backgroundColor: colorPallate.header,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",

@@ -1,54 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
+import {
+  Feather,
+  Ionicons,
+  FontAwesome5,
+  SimpleLineIcons,
+} from "@expo/vector-icons";
 import { Summery } from "./Risksummery";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import ManagementChart from "./ManagementChart";
 import Auditsummery from "./Auditsummery";
+import Organization from "./Organiztion";
 import Managementsummery from "./Managementsummery";
 import { getInventoryData } from "../DashboardDataTest/InventoriesData";
-function Inventories() {
-  let data;
-  useEffect(() => {
-    data = getInventoryData();
-    console.log(data);
-  });
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { colorPallate } from "../GlobalStyleVars";
+const Tab = createMaterialBottomTabNavigator();
 
+function TestCopm() {
   return (
-    <View style={styles.inventories}>
-      <Text style={styles.inventory}>Inventories</Text>
-      <View style={styles.assetbtnCont}>
-        <TouchableOpacity style={styles.assetbtn}>
-          <Text style={styles.riskamount}>0</Text>
-          <Text style={styles.text}>Hardware</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.assetbtn}>
-          <Text style={styles.riskamount}>0</Text>
-          <Text style={styles.text}>Software</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.assetbtn}>
-          <Text style={styles.riskamount}>0</Text>
-          <Text style={styles.text}>Org</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.assetbtn}>
-          <Text style={styles.riskamount}>0</Text>
-          <Text style={styles.text}>People</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.assetbtn}>
-          <Text style={styles.riskamount}>0</Text>
-          <Text style={styles.text}>Premises</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
-
-function Dashboard() {
-  return (
-    <View>
-      <View style={[styles.sections, { marginVertical: 0 }]}>
-        <Inventories />
-      </View>
+    <ScrollView style={{ backgroundColor: "#003F7A" }}>
       <View style={styles.board}>
         <View style={styles.sections}>
           <Summery />
@@ -60,10 +31,67 @@ function Dashboard() {
           <Managementsummery />
         </View>
         <View style={styles.sections}>
-          <ManagementChart />
+          <Organization />
         </View>
       </View>
-    </View>
+    </ScrollView>
+  );
+}
+
+function Dashboard() {
+  return (
+    <Tab.Navigator
+      initialRouteName="Hardware"
+      activeColor={colorPallate.theme}
+      inactiveColor={colorPallate.primaryFocus}
+      barStyle={{ backgroundColor: "white" }}
+    >
+      <Tab.Screen
+        name="Hardware 2"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Feather name="hard-drive" size={24} color={color} />
+          ),
+        }}
+        children={() => <TestCopm />}
+      />
+      <Tab.Screen
+        name="Software 12"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Feather name="monitor" size={24} color={color} />
+          ),
+        }}
+        children={() => <TestCopm />}
+      />
+      <Tab.Screen
+        name="Org 22"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <SimpleLineIcons name="organization" size={24} color={color} />
+          ),
+        }}
+        children={() => <TestCopm />}
+      />
+      <Tab.Screen
+        name="People 9"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="ios-people" size={24} color={color} />
+          ),
+        }}
+        children={() => <TestCopm />}
+      />
+      <Tab.Screen
+        name="Premises 14"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <FontAwesome5 name="building" size={24} color={color} />
+          ),
+        }}
+        children={() => <TestCopm />}
+      />
+    </Tab.Navigator>
   );
 }
 const styles = StyleSheet.create({
@@ -81,7 +109,8 @@ const styles = StyleSheet.create({
     color: "#1B4965",
   },
   board: {
-    padding: 15,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
   },
   inventories: {
     backgroundColor: "white",

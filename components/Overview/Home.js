@@ -8,9 +8,9 @@ function Home(props) {
   return (
     <View style={styles.container}>
       <Header props={props}></Header>
-      <ScrollView style={styles.scrollView}>
-        <Dashboard />
-      </ScrollView>
+      {/* <ScrollView style={styles.scrollView}> */}
+      <Dashboard />
+      {/* </ScrollView> */}
     </View>
   );
 }
@@ -20,9 +20,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F2FFFE",
   },
-  scrollView: {
-    // paddingHorizontal: 15,
-  },
+  scrollView: {},
 });
 
 export default Home;

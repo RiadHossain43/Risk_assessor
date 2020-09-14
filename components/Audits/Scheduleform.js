@@ -271,7 +271,7 @@ function Scheduleform({
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
             />
-            <OpenDocs setDoclst={setDoclst} />
+            <OpenDocs setDoclst={setDoclst} doclst={doclst} />
             <TouchableOpacity
               style={styles.riskaddbtn}
               onPress={props.handleSubmit}

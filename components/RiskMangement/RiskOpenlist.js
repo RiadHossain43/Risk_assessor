@@ -13,6 +13,7 @@ import AddRiskbtn from "./AddRiskbtn";
 import OpenClosedbtn from "./OpenClosebtn";
 import { Fontisto, AntDesign, Ionicons } from "@expo/vector-icons";
 import DetailView from "./DetailView";
+import { colorPallate } from "../GlobalStyleVars";
 
 function ListItem({ risk, updateRisk, formTitle, addRisk, AcceptRiskList }) {
   let [detailOpen, setDetailOpen] = useState(false);
@@ -205,10 +206,9 @@ function ListItemClosed({ risk, updateRisk, formTitle, updateAcceptRiskList }) {
 
 function OpenList({ risks, updateRisk, formTitle, addRisk, AcceptRiskList }) {
   return (
-    <>
+    <View style={styles.list}>
       <AddRiskbtn addRisk={addRisk} formTitle={formTitle} />
       <FlatList
-        style={styles.list}
         data={risks}
         renderItem={(risk) => (
           <ListItem
@@ -220,15 +220,14 @@ function OpenList({ risks, updateRisk, formTitle, addRisk, AcceptRiskList }) {
           />
         )}
       />
-    </>
+    </View>
   );
 }
 
 function ClosedList({ closedRisks, updateRisk, formTitle, addRisk }) {
   return (
-    <>
+    <View style={styles.list}>
       <FlatList
-        style={styles.list}
         data={closedRisks}
         renderItem={(risk) => (
           <ListItemClosed
@@ -238,7 +237,7 @@ function ClosedList({ closedRisks, updateRisk, formTitle, addRisk }) {
           />
         )}
       />
-    </>
+    </View>
   );
 }
 
@@ -249,9 +248,8 @@ function AcceptedList({
   updateAcceptRiskList,
 }) {
   return (
-    <>
+    <View style={styles.list}>
       <FlatList
-        style={styles.list}
         data={closedRisks}
         renderItem={(risk) => (
           <ListItemClosed
@@ -262,7 +260,7 @@ function AcceptedList({
           />
         )}
       />
-    </>
+    </View>
   );
 }
 
@@ -279,6 +277,7 @@ function RiskopenList({ formTitle }) {
       likelyhood: 3,
       submission: "03 August 2020",
       closed: "",
+      accepted_on: "",
       mitigated: false,
       owner: "Name that was added",
       closed_by: "",
@@ -286,6 +285,7 @@ function RiskopenList({ formTitle }) {
       acceptance_rational: "",
       decession_maker: "",
       accepted: false,
+      asset_tag: "",
     },
   ]);
   // console.log(formTitle);
@@ -301,6 +301,7 @@ function RiskopenList({ formTitle }) {
       likelyhood: 1,
       submission: "3 August 2020",
       closed: "10 August 2020",
+      accepted_on: "",
       mitigated: true,
       owner: "Name that was added",
       closed_by: "",
@@ -308,6 +309,7 @@ function RiskopenList({ formTitle }) {
       acceptance_rational: "",
       decession_maker: "",
       accepted: false,
+      asset_tag: "",
     },
   ]);
 
@@ -323,6 +325,7 @@ function RiskopenList({ formTitle }) {
       likelyhood: 1,
       submission: "3 August 2020",
       closed: "10 August 2020",
+      accepted_on: "13 August 2020",
       mitigated: false,
       owner: "Name that was added",
       closed_by: "",
@@ -330,6 +333,7 @@ function RiskopenList({ formTitle }) {
       acceptance_rational: "",
       decession_maker: "",
       accepted: true,
+      asset_tag: "",
     },
   ]);
   let [activeRisk, setActiveRisk] = useState(true);
@@ -440,8 +444,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#F2FFFE",
-    borderRadius: 6,
   },
   details: {
     paddingVertical: 5,
@@ -471,6 +473,8 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingTop: 5,
+    backgroundColor: colorPallate.primary,
+    flex: 1,
   },
   listback: {
     flexDirection: "row",

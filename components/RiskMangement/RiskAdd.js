@@ -88,6 +88,8 @@ function RiskAdd({ addRisk, formClose, editRisk, closeDetailView, formTitle }) {
     accepted_by: "",
     acceptance_rational: "",
     decession_maker: "",
+    accepted_on: "",
+    asset_tag: "",
   };
   // console.log(editRisk != undefined && editRisk.item);
   return (
@@ -114,6 +116,13 @@ function RiskAdd({ addRisk, formClose, editRisk, closeDetailView, formTitle }) {
                 onChangeText={props.handleChange("assets")}
                 value={props.values.assets}
               />
+              <TextInput
+                style={[styles.inputs]}
+                placeholder="Asset Tag"
+                onChangeText={props.handleChange("asset_tag")}
+                value={props.values.asset_tag}
+              />
+
               <View style={styles.inventorybtn}>
                 <Text>
                   {added

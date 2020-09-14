@@ -67,17 +67,20 @@ function DetailView({
   }
   function renderList(list, downloadable = false) {
     return list.map((item, index) => (
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginVertical: 6,
+        }}
+      >
         <Text style={styles.text}>
           {index + 1} {item}
         </Text>
         {downloadable && (
-          <Ionicons
-            name="md-download"
-            size={20}
-            color={colorPallate.theme}
-            style={{ marginLeft: "auto" }}
-          />
+          <TouchableOpacity style={{ marginLeft: "auto", marginRight: 20 }}>
+            <Ionicons name="md-download" size={25} color={colorPallate.theme} />
+          </TouchableOpacity>
         )}
       </View>
     ));
@@ -295,7 +298,7 @@ const styles = StyleSheet.create({
     backgroundColor: colorPallate.theme,
     alignSelf: "flex-start",
     paddingVertical: 5,
-    marginVertical: 5,
+    marginVertical: 10,
   },
   time: { marginLeft: 10, fontSize: 16 },
   text: {

@@ -147,6 +147,8 @@ function DetailView({
         </View>
         <Text style={styles.risktitle}>Assets</Text>
         <Text style={styles.text}>{risk.item.assets}</Text>
+        <Text style={styles.risktitle}>Tag</Text>
+        <Text style={styles.text}>{risk.item.asset_tag}</Text>
         {risk.item.addInventory && (
           <Text style={[styles.text]}>
             ( Added to {formTitle.toLowerCase()} inventory )
@@ -192,6 +194,20 @@ function DetailView({
           >
             <Fontisto name="clock" size={16} color="#62B6CB" />
             <Text style={[styles.time]}>Closed on : {risk.item.closed}</Text>
+          </View>
+        )}
+        {risk.item.accepted && (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: 7,
+            }}
+          >
+            <Fontisto name="clock" size={16} color="#62B6CB" />
+            <Text style={[styles.time]}>
+              Accepted on : {risk.item.accepted_on}
+            </Text>
           </View>
         )}
 
