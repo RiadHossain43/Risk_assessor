@@ -6,13 +6,13 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Auditsummery from "./Auditsummery";
 import Managementsummery from "./Managementsummery";
 // import { getInventoryData } from "../OrganizationDataTest/InventoriesData";
-
+import { colorPallate } from "../GlobalStyleVars";
 function Organization() {
   return (
     <View>
       <View style={[styles.flex_row, styles.containers]}>
         <View style={[styles.flex_row, styles.orgConf, styles.statetitlebox]}>
-          <AntDesign name="heart" size={20} color="black" />
+          <AntDesign name="heart" size={20} color={colorPallate.red} />
           <Text style={[styles.title]}>Organizational state</Text>
         </View>
         <View style={[styles.orgConf, styles.state]}>
@@ -22,7 +22,11 @@ function Organization() {
       <View style={[styles.containers]}>
         <View style={[styles.flex_row]}>
           <View style={[styles.flex_row, styles.orgConf, styles.statetitlebox]}>
-            <Foundation name="graph-horizontal" size={24} color="black" />
+            <Foundation
+              name="graph-horizontal"
+              size={24}
+              color={colorPallate.theme}
+            />
             <Text style={[styles.title]}>Organizational confidence</Text>
           </View>
           <View style={[styles.orgConf, styles.confilvl]}>
@@ -65,7 +69,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   progressbar: {
-    backgroundColor: "#CAE9FF",
+    backgroundColor: colorPallate.secondary,
     width: "100%",
     height: 10,
     marginVertical: 5,
@@ -74,7 +78,7 @@ const styles = StyleSheet.create({
   },
   progress: {
     width: "70%",
-    backgroundColor: "#5FA8D3",
+    backgroundColor: colorPallate.dashBoardseparator,
     height: "100%",
     borderRadius: 30,
   },
@@ -83,7 +87,7 @@ const styles = StyleSheet.create({
   },
   state: {
     marginLeft: "auto",
-    backgroundColor: "red",
+    backgroundColor: colorPallate.red,
     borderRadius: 6,
   },
   title: {

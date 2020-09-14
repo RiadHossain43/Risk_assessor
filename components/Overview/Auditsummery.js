@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
-import { Ionicons, AntDesign } from "@expo/vector-icons";
+import { MaterialIcons, Entypo, FontAwesome } from "@expo/vector-icons";
 import { Summery } from "./Risksummery";
 import {
   TouchableHighlight,
   TouchableOpacity,
 } from "react-native-gesture-handler";
-
+import { colorPallate } from "../GlobalStyleVars";
 function Auditsummery() {
   return (
     <View style={styles.container}>
@@ -17,10 +17,10 @@ function Auditsummery() {
         </View>
       </View>
       <View style={styles.cases}>
-        <Ionicons
-          name="md-done-all"
+        <FontAwesome
+          name="check-square"
           size={20}
-          color="#45A29E"
+          color={colorPallate.theme}
           style={{ marginHorizontal: 10 }}
         />
         <Text style={styles.field}>Confomaties</Text>
@@ -28,10 +28,10 @@ function Auditsummery() {
         <Text style={styles.unit}>Cases</Text>
       </View>
       <View style={styles.cases}>
-        <AntDesign
-          name="closecircleo"
+        <MaterialIcons
+          name="error"
           size={20}
-          color="#45A29E"
+          color={colorPallate.theme}
           style={{ marginHorizontal: 10 }}
         />
         <Text style={styles.field}>Non Confomaties</Text>
@@ -45,10 +45,10 @@ function Auditsummery() {
         </View>
       </View>
       <View style={styles.cases}>
-        <Ionicons
-          name="md-done-all"
+        <FontAwesome
+          name="check-square"
           size={20}
-          color="#45A29E"
+          color={colorPallate.theme}
           style={{ marginHorizontal: 10 }}
         />
         <Text style={styles.field}>Audited</Text>
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   container: {
-    backgroundColor: "white",
+    backgroundColor: colorPallate.white,
     borderRadius: 6,
     shadowColor: "#CAE9FF",
     shadowOffset: {
@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 3.84,
     elevation: 5,
+    padding: 4,
   },
   figures: { marginLeft: "auto", color: "#153243" },
   field: {
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
   },
   progressbar: {
     flex: 1,
-    backgroundColor: "#CAE9FF",
+    backgroundColor: colorPallate.secondary,
     height: 10,
     marginVertical: 5,
     borderRadius: 30,
@@ -90,14 +91,14 @@ const styles = StyleSheet.create({
   },
   progress: {
     width: "70%",
-    backgroundColor: "#5FA8D3",
+    backgroundColor: colorPallate.dashBoardseparator,
     height: "100%",
     borderRadius: 30,
   },
   title: {
     marginHorizontal: 5,
     fontSize: 15,
-    color: "#62B6CB",
+    color: colorPallate.black,
     fontWeight: "bold",
   },
   titlebox: {

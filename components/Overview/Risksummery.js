@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ColorPropType, StyleSheet, Text, View } from "react-native";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import Svg, { Circle } from "react-native-svg";
-
+import { colorPallate } from "../GlobalStyleVars";
 function OpendColosedChartData() {
   return (
     <View
@@ -91,7 +91,7 @@ function Summery() {
               opacity={0.5}
             />
             <Circle
-              stroke="#5FA8D3"
+              stroke={colorPallate.dashBoardseparator}
               fill="none"
               cy={svgWidth / 2}
               cx={svgWidth / 2}
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F6AC4A",
   },
   levelindicatorL: {
-    backgroundColor: "#5FA8D3",
+    backgroundColor: colorPallate.dashBoardseparator,
   },
   oprnrisk: {},
   riskamounts: {
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
   },
   riskdata: {
     padding: 8,
-    backgroundColor: "#CAE9FF",
+    backgroundColor: colorPallate.secondary,
     flex: 1,
     alignSelf: "flex-start",
     borderRadius: 4,

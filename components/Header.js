@@ -29,6 +29,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    borderBottomColor: colorPallate.dashBoardseparator,
+    borderBottomWidth: 1,
   },
   logo: {
     width: 50,

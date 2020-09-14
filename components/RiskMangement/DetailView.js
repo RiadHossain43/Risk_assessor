@@ -17,10 +17,11 @@ import {
   Entypo,
   SimpleLineIcons,
 } from "@expo/vector-icons";
-
+import { colorPallate } from "../GlobalStyleVars";
 import Bar from "./customProgressbar";
 import RiskAdd from "./RiskAdd";
 import Acceptform from "./Acceptform";
+import { color } from "react-native-reanimated";
 function getClosedTime() {
   const monthNames = [
     "January",
@@ -77,13 +78,15 @@ function DetailView({
         <View style={styles.formtop}>
           <TouchableOpacity onPress={() => setFormOpen(false)}>
             <Entypo
-              name="arrow-with-circle-left"
+              name="chevron-left"
               size={24}
-              color="black"
+              color={colorPallate.white}
               style={styles.backbtn}
             />
           </TouchableOpacity>
-          <Text style={{ fontSize: 20 }}>{formTitle}</Text>
+          <Text style={{ fontSize: 20, color: colorPallate.white }}>
+            {formTitle}
+          </Text>
         </View>
 
         <ScrollView style={styles.modal}>
@@ -113,38 +116,52 @@ function DetailView({
           }}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Feather name="user" size={20} color="#62B6CB" />
+            <Feather name="user" size={20} color={colorPallate.theme} />
             <Text style={[styles.owner]}>Owner: {risk.item.owner}</Text>
           </View>
           {!mitigated && !risk.item.accepted && (
             <View style={{ flexDirection: "row" }}>
               <TouchableOpacity
-                style={styles.editButton}
+                style={{ marginHorizontal: 5 }}
                 onPress={() => setFormOpen(true)}
               >
                 <MaterialCommunityIcons
                   name="circle-edit-outline"
-                  size={20}
-                  color="#62B6CB"
+                  size={22}
+                  color={colorPallate.lightGreen}
                 />
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => setAcceptOpen(true)}>
-                <SimpleLineIcons name="drawer" size={24} color="black" />
+              <TouchableOpacity
+                style={{ marginHorizontal: 6 }}
+                onPress={() => setAcceptOpen(true)}
+              >
+                <SimpleLineIcons
+                  name="drawer"
+                  size={20}
+                  color={colorPallate.lightGreen}
+                />
               </TouchableOpacity>
             </View>
           )}
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           {mitigated ? (
-            <AntDesign name="Safety" size={20} color="#62B6CB" />
+            <AntDesign
+              name="Safety"
+              size={20}
+              color={colorPallate.lightGreen}
+            />
           ) : (
-            <AntDesign name="warning" size={20} color="#BD2236" />
+            <AntDesign name="warning" size={20} color={colorPallate.red} />
           )}
           <Text style={[styles.risktitle, { marginLeft: 10 }]}>
             {risk.item.risk}
           </Text>
         </View>
+
+        <View style={styles.separator}></View>
+
         <Text style={styles.risktitle}>Assets</Text>
         <Text style={styles.text}>{risk.item.assets}</Text>
         <Text style={styles.risktitle}>Tag</Text>
@@ -173,6 +190,9 @@ function DetailView({
             <Bar level={risk.item.likelyhood} />
           </View>
         </View>
+
+        <View style={styles.separator}></View>
+
         <View
           style={{
             flexDirection: "row",
@@ -180,7 +200,7 @@ function DetailView({
             marginVertical: 7,
           }}
         >
-          <Fontisto name="clock" size={16} color="#62B6CB" />
+          <Fontisto name="clock" size={16} color={colorPallate.theme} />
           <Text style={[styles.time]}>Raised on : {risk.item.submission}</Text>
         </View>
 
@@ -192,7 +212,7 @@ function DetailView({
               marginVertical: 7,
             }}
           >
-            <Fontisto name="clock" size={16} color="#62B6CB" />
+            <Fontisto name="clock" size={16} color={colorPallate.theme} />
             <Text style={[styles.time]}>Closed on : {risk.item.closed}</Text>
           </View>
         )}
@@ -204,7 +224,7 @@ function DetailView({
               marginVertical: 7,
             }}
           >
-            <Fontisto name="clock" size={16} color="#62B6CB" />
+            <Fontisto name="clock" size={16} color={colorPallate.theme} />
             <Text style={[styles.time]}>
               Accepted on : {risk.item.accepted_on}
             </Text>
@@ -218,7 +238,7 @@ function DetailView({
             marginVertical: 7,
           }}
         >
-          <Ionicons name="md-open" size={16} color="#62B6CB" />
+          <Ionicons name="md-open" size={16} color={colorPallate.theme} />
           <Text style={[styles.time]}>
             Raised By : Reyad (Will Be automated)
           </Text>
@@ -228,18 +248,26 @@ function DetailView({
           <AntDesign
             name="leftcircle"
             size={22}
-            color="black"
+            color={colorPallate.white}
             onPress={handleClosebtn}
           />
           {checkOpen && (
             <>
-              <Text style={[styles.text, { marginHorizontal: 8 }]}>
+              <Text
+                style={[
+                  styles.text,
+                  { marginHorizontal: 8, color: colorPallate.secondary },
+                ]}
+              >
                 {mitigated ? "Mitigated" : "Close"}
               </Text>
               {!mitigated && (
                 <CheckBox
                   value={false}
-                  tintColors={{ true: "#1B4965", false: "#1B4965" }}
+                  tintColors={{
+                    true: colorPallate.secondary,
+                    false: colorPallate.secondary,
+                  }}
                   onChange={() => {
                     setTimeout(() => {
                       risk.item.mitigated = true;
@@ -277,7 +305,7 @@ const styles = StyleSheet.create({
   formtop: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#F2FFFE",
+    backgroundColor: colorPallate.theme,
   },
   head: {
     padding: 5,
@@ -323,6 +351,12 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderRadius: 6,
   },
+  separator: {
+    backgroundColor: colorPallate.dashBoardseparator,
+    height: 2,
+    borderRadius: 2,
+    marginVertical: 4,
+  },
   tiked: {
     marginLeft: "auto",
     flexDirection: "row",
@@ -330,7 +364,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 50,
     borderBottomLeftRadius: 50,
     paddingHorizontal: 10,
-    backgroundColor: "#5FA8D3",
+    backgroundColor: colorPallate.theme,
     alignSelf: "flex-start",
     paddingVertical: 5,
     marginVertical: 5,

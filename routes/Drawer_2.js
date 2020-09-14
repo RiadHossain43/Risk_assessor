@@ -24,12 +24,19 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import Animated from "react-native-reanimated";
+import { colorPallate } from "../components/GlobalStyleVars";
 const Drawer = createDrawerNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Overview">
+      <Drawer.Navigator
+        initialRouteName="Overview"
+        drawerContentOptions={{
+          activeTintColor: colorPallate.theme,
+          activeBackgroundColor: colorPallate.secondary,
+        }}
+      >
         <Drawer.Screen
           name="Reyad Hossain"
           component={User}
@@ -50,7 +57,7 @@ export default function App() {
                 <EvilIcons
                   name="user"
                   size={35}
-                  color={focused ? "#7cc" : "#ccc"}
+                  color={focused ? colorPallate.theme : "#ccc"}
                 />
               </View>
             ),
@@ -65,7 +72,7 @@ export default function App() {
               <MaterialIcons
                 name="dashboard"
                 size={size}
-                color={focused ? "#7cc" : "#ccc"}
+                color={focused ? colorPallate.theme : "#ccc"}
               />
             ),
           }}
@@ -78,7 +85,7 @@ export default function App() {
               <AntDesign
                 name="CodeSandbox"
                 size={size}
-                color={focused ? "#7cc" : "#ccc"}
+                color={focused ? colorPallate.theme : "#ccc"}
               />
             ),
           }}
@@ -91,7 +98,7 @@ export default function App() {
               <Entypo
                 name="tools"
                 size={size}
-                color={focused ? "#7cc" : "#ccc"}
+                color={focused ? colorPallate.theme : "#ccc"}
               />
             ),
           }}
@@ -104,7 +111,7 @@ export default function App() {
               <MaterialCommunityIcons
                 name="clipboard-text-outline"
                 size={size}
-                color={focused ? "#7cc" : "#ccc"}
+                color={focused ? colorPallate.theme : "#ccc"}
               />
             ),
           }}
@@ -117,7 +124,7 @@ export default function App() {
               <MaterialIcons
                 name="rate-review"
                 size={size}
-                color={focused ? "#7cc" : "#ccc"}
+                color={focused ? colorPallate.theme : "#ccc"}
               />
             ),
           }}
@@ -130,7 +137,7 @@ export default function App() {
               <SimpleLineIcons
                 name="graph"
                 size={size}
-                color={focused ? "#7cc" : "#ccc"}
+                color={focused ? colorPallate.theme : "#ccc"}
               />
             ),
           }}
@@ -143,7 +150,7 @@ export default function App() {
               <AntDesign
                 name="questioncircleo"
                 size={size}
-                color={focused ? "#7cc" : "#ccc"}
+                color={focused ? colorPallate.theme : "#ccc"}
               />
             ),
           }}

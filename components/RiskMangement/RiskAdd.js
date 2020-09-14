@@ -13,6 +13,7 @@ import { Formik } from "formik";
 import Slider from "react-native-slider";
 import AssetPicker from "./AssetPicker";
 import { setInventoryData } from "../DashboardDataTest/InventoriesData";
+import { colorPallate } from "../GlobalStyleVars";
 function getSubmissionTime() {
   const monthNames = [
     "January",
@@ -218,7 +219,7 @@ function RiskAdd({ addRisk, formClose, editRisk, closeDetailView, formTitle }) {
               style={styles.riskaddbtn}
               onPress={props.handleSubmit}
             >
-              <Text style={{ fontSize: 20 }}>
+              <Text style={{ fontSize: 20, color: colorPallate.white }}>
                 {editRisk == undefined ? "Add Risk" : "Update"}
               </Text>
             </TouchableOpacity>
@@ -240,7 +241,7 @@ const styles = StyleSheet.create({
   },
   inventorybtn: {
     alignItems: "center",
-    backgroundColor: "#CAE9FF",
+    backgroundColor: colorPallate.secondary,
     borderRadius: 6,
     flexDirection: "row",
     marginLeft: "auto",
@@ -275,7 +276,7 @@ const styles = StyleSheet.create({
   },
   riskaddbtn: {
     marginVertical: 0,
-    backgroundColor: "#CAE9FF",
+    backgroundColor: colorPallate.theme,
     borderRadius: 6,
     alignItems: "center",
     padding: 8,
@@ -305,7 +306,7 @@ const styles = StyleSheet.create({
   },
   slidercaption: {
     fontSize: 20,
-    color: "#62B6CB",
+    color: colorPallate.theme,
     fontWeight: "bold",
   },
 });

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
-import { Ionicons, AntDesign } from "@expo/vector-icons";
+import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
 
 import {
   TouchableHighlight,
   TouchableOpacity,
 } from "react-native-gesture-handler";
+import { colorPallate } from "../GlobalStyleVars";
 
 function Managementsummery() {
   return (
@@ -16,19 +17,19 @@ function Managementsummery() {
       </View>
       <View style={styles.cases}>
         <AntDesign
-          name="filetext1"
+          name="stepforward"
           size={20}
-          color="#45A29E"
+          color={colorPallate.theme}
           style={{ marginHorizontal: 10 }}
         />
         <Text style={styles.field}>Next Review</Text>
         <Text style={styles.figures}>22 August 2020</Text>
       </View>
       <View style={styles.cases}>
-        <AntDesign
-          name="filetext1"
+        <MaterialCommunityIcons
+          name="clipboard-text"
           size={20}
-          color="#45A29E"
+          color={colorPallate.theme}
           style={{ marginHorizontal: 10 }}
         />
         <Text style={styles.field}>Last Conducted</Text>
@@ -53,13 +54,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 3.84,
     elevation: 5,
-    paddingVertical: 5,
+    padding: 4,
   },
   datetitle: {
     marginLeft: "auto",
     marginRight: 10,
     fontSize: 15,
-    color: "#62B6CB",
+    color: colorPallate.black,
     fontWeight: "bold",
   },
   figures: { marginLeft: "auto", color: "#153243", marginRight: 10 },
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
   title: {
     marginHorizontal: 5,
     fontSize: 15,
-    color: "#62B6CB",
+    color: colorPallate.black,
     fontWeight: "bold",
   },
   titlebox: {

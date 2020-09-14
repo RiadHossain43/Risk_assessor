@@ -19,16 +19,26 @@ const Tab = createMaterialBottomTabNavigator();
 
 function TestCopm() {
   return (
-    <ScrollView style={{ backgroundColor: "#003F7A" }}>
+    <ScrollView style={{ backgroundColor: colorPallate.theme }}>
       <View style={styles.board}>
         <View style={styles.sections}>
+          <Text style={styles.separatorText}>Risk summery</Text>
+        </View>
+        <View style={styles.sections}>
           <Summery />
+        </View>
+        <View style={styles.sections}>
+          <View style={styles.separator}></View>
         </View>
         <View style={styles.sections}>
           <Auditsummery />
         </View>
         <View style={styles.sections}>
           <Managementsummery />
+        </View>
+        <View style={styles.sections}>
+          <View style={styles.separator}></View>
+          <Text style={styles.separatorText}>Organization</Text>
         </View>
         <View style={styles.sections}>
           <Organization />
@@ -42,9 +52,9 @@ function Dashboard() {
   return (
     <Tab.Navigator
       initialRouteName="Hardware"
-      activeColor={colorPallate.theme}
-      inactiveColor={colorPallate.primaryFocus}
-      barStyle={{ backgroundColor: "white" }}
+      activeColor={colorPallate.white}
+      inactiveColor={colorPallate.lightGreen}
+      barStyle={styles.tabBar}
     >
       <Tab.Screen
         name="Hardware 2"
@@ -151,11 +161,27 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   sections: {
-    marginVertical: 5,
+    marginVertical: 6,
+  },
+  separator: {
+    backgroundColor: colorPallate.dashBoardseparator,
+    height: 2,
+    borderRadius: 2,
+    marginVertical: 4,
+  },
+  separatorText: {
+    color: colorPallate.primary,
+    fontSize: 15,
+    fontWeight: "bold",
   },
   text: {
     textAlign: "left",
     fontSize: 12,
+  },
+  tabBar: {
+    backgroundColor: colorPallate.theme,
+    borderTopColor: colorPallate.lightGreen,
+    borderTopWidth: 1,
   },
 });
 

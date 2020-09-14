@@ -10,7 +10,7 @@ import Svg, {
 } from "react-native-svg";
 import * as shape from "d3-shape";
 import { AreaChart, Grid, YAxis, XAxis } from "react-native-svg-charts";
-
+import { colorPallate } from "../GlobalStyleVars";
 const Gradient = () => (
   <Defs key={"gradient"}>
     <LinearGradient id={"gradient"} x1={"0"} y={"0%"} x2={"0%"} y2={"100%"}>

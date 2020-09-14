@@ -11,7 +11,7 @@ import {
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import AddRiskbtn from "./AddRiskbtn";
 import OpenClosedbtn from "./OpenClosebtn";
-import { Fontisto, AntDesign, Ionicons } from "@expo/vector-icons";
+import { Feather, Fontisto, AntDesign, Ionicons } from "@expo/vector-icons";
 import DetailView from "./DetailView";
 import { colorPallate } from "../GlobalStyleVars";
 
@@ -76,10 +76,11 @@ function ListItem({ risk, updateRisk, formTitle, addRisk, AcceptRiskList }) {
             }}
           >
             {/* <Text style={{ fontSize: 16, color: "white" }}>Back </Text> */}
-            <AntDesign
-              name="downcircleo"
+
+            <Feather
+              name="minimize"
               size={24}
-              color="black"
+              color={colorPallate.secondary}
               style={{ marginHorizontal: 9 }}
             />
           </TouchableOpacity>
@@ -101,7 +102,7 @@ function ListItem({ risk, updateRisk, formTitle, addRisk, AcceptRiskList }) {
             <AntDesign
               name="warning"
               size={20}
-              color="#FF1C53"
+              color={colorPallate.red}
               style={{ marginLeft: "auto" }}
             />
           </View>
@@ -114,7 +115,7 @@ function ListItem({ risk, updateRisk, formTitle, addRisk, AcceptRiskList }) {
           <View
             style={[styles.row, { marginVertical: 7, alignItems: "center" }]}
           >
-            <Fontisto name="clock" size={20} color="#62B6CB" />
+            <Fontisto name="clock" size={20} color={colorPallate.theme} />
             <Text style={{ marginHorizontal: 10 }}>
               Raised on: {risk.item.submission}
             </Text>
@@ -137,7 +138,7 @@ function ListItemClosed({ risk, updateRisk, formTitle, updateAcceptRiskList }) {
   return (
     <View style={styles.Litem}>
       <Modal visible={detailOpen} animationType={"fade"}>
-        <View style={{ flex: 1, backgroundColor: "#F2FFFE" }}>
+        <View style={{ flex: 1, backgroundColor: colorPallate.primary }}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <TouchableOpacity
               style={styles.listback}
@@ -147,7 +148,7 @@ function ListItemClosed({ risk, updateRisk, formTitle, updateAcceptRiskList }) {
               <AntDesign
                 name="back"
                 size={24}
-                color="#1B4965"
+                color={colorPallate.white}
                 style={{ marginHorizontal: 9 }}
               />
             </TouchableOpacity>
@@ -155,7 +156,7 @@ function ListItemClosed({ risk, updateRisk, formTitle, updateAcceptRiskList }) {
               style={{
                 fontSize: 18,
                 fontWeight: "bold",
-                color: "#1B4965",
+                color: colorPallate.theme,
                 marginHorizontal: 10,
               }}
             >
@@ -176,20 +177,22 @@ function ListItemClosed({ risk, updateRisk, formTitle, updateAcceptRiskList }) {
       <View style={[styles.row]}>
         <Text style={styles.risktitle}>{risk.item.risk}</Text>
 
-        <Ionicons
-          name="md-checkbox-outline"
-          size={20}
-          color="black"
-          color="#62B6CB"
-          style={{ marginVertical: 7, marginLeft: "auto" }}
-        />
+        {risk.item.mitigated && (
+          <Ionicons
+            name="md-checkbox-outline"
+            size={20}
+            color="black"
+            color={colorPallate.lightGreen}
+            style={{ marginVertical: 7, marginLeft: "auto" }}
+          />
+        )}
       </View>
       <View style={[styles.row]}>
         <Text style={styles.level}>Consequences: {risk.item.consequence}</Text>
         <Text style={styles.level}>Likelihood: {risk.item.likelyhood}</Text>
       </View>
       <View style={[styles.row, { marginVertical: 7, alignItems: "center" }]}>
-        <Fontisto name="clock" size={20} color="#62B6CB" />
+        <Fontisto name="clock" size={20} color={colorPallate.theme} />
         <Text style={{ marginHorizontal: 5 }}>
           Closed on: {risk.item.closed}
         </Text>
@@ -285,7 +288,7 @@ function RiskopenList({ formTitle }) {
       acceptance_rational: "",
       decession_maker: "",
       accepted: false,
-      asset_tag: "",
+      asset_tag: "Tag name",
     },
   ]);
   // console.log(formTitle);
@@ -309,7 +312,7 @@ function RiskopenList({ formTitle }) {
       acceptance_rational: "",
       decession_maker: "",
       accepted: false,
-      asset_tag: "",
+      asset_tag: "Tag name",
     },
   ]);
 
@@ -333,7 +336,7 @@ function RiskopenList({ formTitle }) {
       acceptance_rational: "",
       decession_maker: "",
       accepted: true,
-      asset_tag: "",
+      asset_tag: "Tag name",
     },
   ]);
   let [activeRisk, setActiveRisk] = useState(true);
@@ -448,7 +451,7 @@ const styles = StyleSheet.create({
   details: {
     paddingVertical: 5,
     paddingHorizontal: 14,
-    backgroundColor: "#5FA8D3",
+    backgroundColor: colorPallate.theme,
     marginLeft: "auto",
     borderRadius: 20,
     alignItems: "center",
@@ -463,7 +466,7 @@ const styles = StyleSheet.create({
     marginVertical: 7,
     fontSize: 16,
     fontWeight: "bold",
-    color: "#62B6CB",
+    color: colorPallate.theme,
   },
   row: {
     flexDirection: "row",
@@ -478,7 +481,7 @@ const styles = StyleSheet.create({
   },
   listback: {
     flexDirection: "row",
-    backgroundColor: "#5FA8D3",
+    backgroundColor: colorPallate.theme,
     alignItems: "center",
     padding: 10,
     borderTopRightRadius: 50,

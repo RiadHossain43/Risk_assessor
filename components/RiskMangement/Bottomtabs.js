@@ -41,7 +41,7 @@ function MyTabs() {
     <Tab.Navigator
       initialRouteName="Hardware"
       activeColor={colorPallate.theme}
-      inactiveColor={colorPallate.primaryFocus}
+      inactiveColor={colorPallate.tertiary}
       barStyle={{ backgroundColor: "white" }}
     >
       <Tab.Screen

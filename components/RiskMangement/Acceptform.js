@@ -12,6 +12,8 @@ import {
 import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
 import RiskAdd from "./RiskAdd";
 import { Formik } from "formik";
+import { colorPallate } from "../GlobalStyleVars";
+import { color } from "react-native-reanimated";
 function getClosedTime() {
   const monthNames = [
     "January",
@@ -43,43 +45,43 @@ function getClosedTime() {
 function Form({ acceptRisk, AcceptRiskList }) {
   console.log(AcceptRiskList);
   return (
-    <View style={{ backgroundColor: "white" }}>
-      <Formik
-        initialValues={acceptRisk.item}
-        onSubmit={(values) => {
-          values.accepted = true;
-          values.accepted_on = getClosedTime();
-          AcceptRiskList(values);
-        }}
-      >
-        {(props) => (
-          <View style={styles.form}>
-            <TextInput
-              style={[styles.inputs, { width: "100%" }]}
-              placeholder="Acceptance rational"
-              onChangeText={props.handleChange("acceptance_rational")}
-              value={props.values.acceptance_rational}
-              numberOfLines={3}
-              multiline={true}
-            />
-            <TextInput
-              style={[styles.inputs, { width: "100%" }]}
-              placeholder="Decision maker"
-              onChangeText={props.handleChange("decession_maker")}
-              value={props.values.decession_maker}
-              numberOfLines={3}
-              multiline={true}
-            />
-            <TouchableOpacity
-              style={styles.riskaddbtn}
-              onPress={props.handleSubmit}
-            >
-              <Text style={{ fontSize: 20 }}>Accept</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </Formik>
-    </View>
+    <Formik
+      initialValues={acceptRisk.item}
+      onSubmit={(values) => {
+        values.accepted = true;
+        values.accepted_on = getClosedTime();
+        AcceptRiskList(values);
+      }}
+    >
+      {(props) => (
+        <View style={styles.form}>
+          <TextInput
+            style={[styles.inputs, { width: "100%" }]}
+            placeholder="Acceptance rational"
+            onChangeText={props.handleChange("acceptance_rational")}
+            value={props.values.acceptance_rational}
+            numberOfLines={3}
+            multiline={true}
+          />
+          <TextInput
+            style={[styles.inputs, { width: "100%" }]}
+            placeholder="Decision maker"
+            onChangeText={props.handleChange("decession_maker")}
+            value={props.values.decession_maker}
+            numberOfLines={3}
+            multiline={true}
+          />
+          <TouchableOpacity
+            style={styles.riskaddbtn}
+            onPress={props.handleSubmit}
+          >
+            <Text style={{ fontSize: 20, color: colorPallate.theme }}>
+              Accept
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </Formik>
   );
 }
 
@@ -89,20 +91,21 @@ function Acceptform({ acceptOpen, setAcceptOpen, acceptRisk, AcceptRiskList }) {
       <View
         style={{
           marginTop: "auto",
-          paddingBottom: 20,
           backgroundColor: "#eeeeee",
         }}
       >
         <View style={styles.formtop}>
           <TouchableOpacity onPress={() => setAcceptOpen(false)}>
             <Entypo
-              name="arrow-with-circle-left"
-              size={24}
-              color="black"
+              name="chevron-small-down"
+              size={30}
+              color={colorPallate.white}
               style={styles.backbtn}
             />
           </TouchableOpacity>
-          <Text style={{ fontSize: 20 }}>Accept Risk</Text>
+          <Text style={{ fontSize: 20, color: colorPallate.white }}>
+            Accept Risk
+          </Text>
         </View>
 
         <View style={styles.modal}>
@@ -121,10 +124,11 @@ const styles = StyleSheet.create({
   formtop: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#eeeeee",
+    backgroundColor: colorPallate.theme,
   },
   form: {
-    backgroundColor: "#eeeeee",
+    backgroundColor: colorPallate.primary,
+    padding: 10,
   },
   inputs: {
     padding: 10,
@@ -146,8 +150,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     marginTop: "auto",
-    backgroundColor: "#eeeeee",
-    paddingHorizontal: 10,
+    backgroundColor: colorPallate.theme,
   },
   btn: {
     flexDirection: "row",
@@ -160,7 +163,7 @@ const styles = StyleSheet.create({
   },
   riskaddbtn: {
     marginVertical: 10,
-    backgroundColor: "#CAE9FF",
+    backgroundColor: colorPallate.secondary,
     borderRadius: 6,
     alignItems: "center",
     padding: 8,

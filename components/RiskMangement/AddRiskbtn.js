@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
 import RiskAdd from "./RiskAdd";
+import { colorPallate } from "../GlobalStyleVars";
 
 function AddRiskbtn({ __Cstyle, addRisk, formTitle }) {
   const [formOpen, setFormOpen] = useState(false);
@@ -24,13 +25,15 @@ function AddRiskbtn({ __Cstyle, addRisk, formTitle }) {
         <View style={styles.formtop}>
           <TouchableOpacity onPress={() => setFormOpen(false)}>
             <Entypo
-              name="arrow-with-circle-left"
+              name="chevron-left"
               size={24}
-              color="black"
+              color={colorPallate.white}
               style={styles.backbtn}
             />
           </TouchableOpacity>
-          <Text style={{ fontSize: 20 }}>{formTitle}</Text>
+          <Text style={{ fontSize: 20, color: colorPallate.white }}>
+            {formTitle}
+          </Text>
         </View>
 
         <ScrollView style={styles.modal}>
@@ -48,7 +51,11 @@ function AddRiskbtn({ __Cstyle, addRisk, formTitle }) {
           style={{ marginLeft: 10 }}
           onPress={() => setFormOpen(true)}
         >
-          <Ionicons name="ios-add-circle" size={35} color="#1B4965" />
+          <Ionicons
+            name="ios-add-circle"
+            size={35}
+            color={colorPallate.white}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -62,7 +69,7 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 10,
-    backgroundColor: "#5FA8D3",
+    backgroundColor: colorPallate.theme,
     flexDirection: "row",
     justifyContent: "space-between",
     marginVertical: 13,
@@ -75,7 +82,7 @@ const styles = StyleSheet.create({
   formtop: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#F2FFFE",
+    backgroundColor: colorPallate.theme,
   },
   modal: {
     backgroundColor: "white",
