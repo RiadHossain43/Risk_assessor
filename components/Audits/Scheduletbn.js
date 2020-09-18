@@ -24,13 +24,15 @@ function ScheduleBtn({ addSchedule }) {
         <View style={styles.formtop}>
           <TouchableOpacity onPress={() => setFormOpen(false)}>
             <Entypo
-              name="arrow-with-circle-left"
+              name="chevron-left"
               size={24}
-              color="black"
+              color={colorPallate.white}
               style={styles.backbtn}
             />
           </TouchableOpacity>
-          <Text style={{ fontSize: 20 }}>Schedule Audit</Text>
+          <Text style={{ fontSize: 20, color: colorPallate.white }}>
+            Schedule Audit
+          </Text>
         </View>
 
         <ScrollView style={styles.modal}>
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
   formtop: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: colorPallate.primary,
+    backgroundColor: colorPallate.theme,
   },
   modal: {
     backgroundColor: colorPallate.primary,

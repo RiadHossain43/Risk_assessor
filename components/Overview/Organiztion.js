@@ -13,7 +13,7 @@ function Organization() {
       <View style={[styles.flex_row, styles.containers]}>
         <View style={[styles.flex_row, styles.orgConf, styles.statetitlebox]}>
           <AntDesign name="heart" size={20} color={colorPallate.red} />
-          <Text style={[styles.title]}>Organizational state</Text>
+          <Text style={[styles.title]}>Organisational state</Text>
         </View>
         <View style={[styles.orgConf, styles.state]}>
           <Text style={[styles.title, { color: "white" }]}>Vulnarable</Text>
@@ -27,7 +27,7 @@ function Organization() {
               size={24}
               color={colorPallate.theme}
             />
-            <Text style={[styles.title]}>Organizational confidence</Text>
+            <Text style={[styles.title]}>Organisational confidence</Text>
           </View>
           <View style={[styles.orgConf, styles.confilvl]}>
             <Text style={[styles.title]}>80%</Text>

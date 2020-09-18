@@ -13,7 +13,6 @@ import {
   Foundation,
   Ionicons,
   MaterialCommunityIcons,
-  AntDesign,
   Entypo,
 } from "@expo/vector-icons";
 import Scheduleform from "./Scheduleform";
@@ -91,9 +90,9 @@ function DetailView({
         <View style={styles.formtop}>
           <TouchableOpacity onPress={() => setFormOpen(false)}>
             <Entypo
-              name="arrow-with-circle-left"
+              name="chevron-left"
               size={24}
-              color="black"
+              color={colorPallate.white}
               style={styles.backbtn}
             />
           </TouchableOpacity>
@@ -123,7 +122,7 @@ function DetailView({
               <MaterialCommunityIcons
                 name="circle-edit-outline"
                 size={20}
-                color={colorPallate.theme}
+                color={colorPallate.lightGreen}
               />
             </TouchableOpacity>
           )}
@@ -146,6 +145,8 @@ function DetailView({
             {audit.item.businessFunction}
           </Text>
         </View>
+        <Text>Auditor : {audit.item.auditors_name}</Text>
+        <View style={styles.separator}></View>
         <Text style={styles.risktitle}>Non Conformities</Text>
         {renderList(audit.item.nonConformity)}
 
@@ -154,6 +155,7 @@ function DetailView({
 
         <Text style={styles.risktitle}>Risks</Text>
         <Text style={styles.text}>{audit.item.risk}</Text>
+        <View style={styles.separator}></View>
         <Text style={styles.risktitle}>Opportunity for Improvement</Text>
         <Text style={styles.text}>{audit.item.imprvOpportun}</Text>
 
@@ -182,13 +184,14 @@ function DetailView({
             </Text>
           </View>
         )}
+        <View style={styles.separator}></View>
         <Text style={styles.risktitle}>Domuments</Text>
         {renderList(audit.item.docs, true)}
         <View style={styles.tiked}>
-          <AntDesign
-            name="leftcircle"
+          <Entypo
+            name="chevron-left"
             size={22}
-            color="black"
+            color={colorPallate.primary}
             onPress={handleClosebtn}
           />
           {checkOpen && (
@@ -235,14 +238,14 @@ const styles = StyleSheet.create({
     width: 26,
     borderRadius: 15,
     borderWidth: 1,
-    borderColor: colorPallate.theme,
+    borderColor: colorPallate.lightGreen,
     justifyContent: "center",
     alignItems: "center",
   },
   formtop: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#F2FFFE",
+    backgroundColor: colorPallate.theme,
   },
   head: {
     padding: 5,
@@ -287,6 +290,12 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     borderRadius: 6,
+  },
+  separator: {
+    backgroundColor: colorPallate.dashBoardseparator,
+    height: 2,
+    borderRadius: 2,
+    marginVertical: 4,
   },
   tiked: {
     marginLeft: "auto",

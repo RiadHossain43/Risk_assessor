@@ -6,17 +6,18 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { colorPallate } from "../GlobalStyleVars";
 // import DocumentPicker from "react-native-document-picker";
 import * as DocumentPicker from "expo-document-picker";
+import { color } from "react-native-reanimated";
 
 function OpenDocs({ setDoclst, doclst }) {
   let [URI, setURI] = useState("");
   let [progress, setProgress] = useState(0);
   let [newDoc, setNewdoc] = useState("New Document");
   let [docEditable, setDoceditable] = useState(true);
-
+  let [cancleDisable, setCancledisable] = useState(false);
   let _pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
     console.log(result.uri);
@@ -49,6 +50,7 @@ function OpenDocs({ setDoclst, doclst }) {
 
     // using xhr for tracking upload percentage
     setDoceditable(false);
+    setCancledisable(true);
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "https://nrhealthcare.net/iMSUpload.php");
     xhr.upload.addEventListener("progress", (e) => {
@@ -62,6 +64,7 @@ function OpenDocs({ setDoclst, doclst }) {
             return [...items, newDoc];
           });
           setDoceditable(true);
+          setCancledisable(false);
           setProgress(0);
           setURI("");
         }, 1300);
@@ -84,7 +87,12 @@ function OpenDocs({ setDoclst, doclst }) {
       );
     });
   }
-
+  function cancle() {
+    newDoc == "" && setNewdoc("New Documnet");
+    setDoceditable(true);
+    setProgress(0);
+    setURI("");
+  }
   return (
     <View>
       {renderList(doclst)}
@@ -94,7 +102,10 @@ function OpenDocs({ setDoclst, doclst }) {
         }}
         style={styles.btn}
       >
-        <Text style={styles.text}>Open a Document</Text>
+        <Feather name="upload" size={24} color={colorPallate.them} />
+        <Text style={[styles.text, { fontWeight: "bold" }]}>
+          Open a Document
+        </Text>
         {progress > 0 && (
           <>
             <Text style={styles.text}>Uploaded {Math.round(progress)}%</Text>
@@ -123,12 +134,25 @@ function OpenDocs({ setDoclst, doclst }) {
               if (docEditable) setNewdoc(doc_name);
             }}
           />
-          <TouchableOpacity
-            onPress={() => uploadFile()}
-            style={styles.uploadbtn}
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Text style={styles.text}>Upload</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => uploadFile()}
+              style={styles.uploadbtn}
+            >
+              <Text style={styles.text}>Upload</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.uploadbtn, { backgroundColor: colorPallate.red }]}
+              onPress={() => cancle()}
+              disabled={cancleDisable}
+            >
+              <Text style={[styles.text, { color: colorPallate.white }]}>
+                Cancel
+              </Text>
+            </TouchableOpacity>
+          </View>
         </>
       )}
     </View>
@@ -156,12 +180,13 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   uploadbtn: {
-    backgroundColor: colorPallate.secondaryFocus,
+    backgroundColor: colorPallate.secondary,
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 5,
     borderRadius: 10,
     marginVertical: 8,
+    width: "49%",
   },
 });
 

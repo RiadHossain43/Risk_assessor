@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import AddRiskbtn from "./AddRiskbtn";
-import OpenClosedbtn from "./OpenClosebtn";
 import { Feather, Fontisto, AntDesign, Ionicons } from "@expo/vector-icons";
 import DetailView from "./DetailView";
 import { colorPallate } from "../GlobalStyleVars";
@@ -144,7 +143,6 @@ function ListItemClosed({ risk, updateRisk, formTitle, updateAcceptRiskList }) {
               style={styles.listback}
               onPress={() => setDetailOpen(false)}
             >
-              <Text style={{ fontSize: 16, color: "white" }}>Back to list</Text>
               <AntDesign
                 name="back"
                 size={24}
@@ -181,7 +179,6 @@ function ListItemClosed({ risk, updateRisk, formTitle, updateAcceptRiskList }) {
           <Ionicons
             name="md-checkbox-outline"
             size={20}
-            color="black"
             color={colorPallate.lightGreen}
             style={{ marginVertical: 7, marginLeft: "auto" }}
           />
@@ -215,6 +212,7 @@ function OpenList({ risks, updateRisk, formTitle, addRisk, AcceptRiskList }) {
         data={risks}
         renderItem={(risk) => (
           <ListItem
+            key={risk.item.key}
             risk={risk}
             updateRisk={updateRisk}
             formTitle={formTitle}
@@ -234,6 +232,7 @@ function ClosedList({ closedRisks, updateRisk, formTitle, addRisk }) {
         data={closedRisks}
         renderItem={(risk) => (
           <ListItemClosed
+            key={risk.item.key}
             risk={risk}
             updateRisk={updateRisk}
             formTitle={formTitle}
@@ -256,6 +255,7 @@ function AcceptedList({
         data={closedRisks}
         renderItem={(risk) => (
           <ListItemClosed
+            key={risk.item.key}
             risk={risk}
             acceptRisk={acceptRisk}
             formTitle={formTitle}
@@ -398,7 +398,7 @@ function RiskopenList({ formTitle }) {
     });
   };
   const Tab = createMaterialTopTabNavigator();
-
+  console.log("rendered");
   return (
     <View style={styles.container}>
       <Tab.Navigator>

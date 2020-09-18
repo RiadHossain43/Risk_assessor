@@ -9,6 +9,7 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import User from "../components/User/User";
 import Overview from "../components/Overview/Home";
+import CreateIms from "../components/CreateIms/CreateIms";
 import Invenoties from "../components/Inventoroies/Inventories";
 import Risk_Management from "../components/RiskMangement/AssesRisk";
 import InternalAudits from "../components/Audits/InternalAudits";
@@ -22,6 +23,7 @@ import {
   MaterialIcons,
   SimpleLineIcons,
   MaterialCommunityIcons,
+  Ionicons,
 } from "@expo/vector-icons";
 import Animated from "react-native-reanimated";
 import { colorPallate } from "../components/GlobalStyleVars";
@@ -77,6 +79,21 @@ export default function App() {
             ),
           }}
         />
+
+        <Drawer.Screen
+          name="Create your iMS"
+          component={CreateIms}
+          options={{
+            drawerIcon: ({ focused, size }) => (
+              <Ionicons
+                name="ios-create"
+                size={size}
+                color={focused ? colorPallate.theme : "#ccc"}
+              />
+            ),
+          }}
+        />
+
         <Drawer.Screen
           name="Invenoties"
           component={Invenoties}

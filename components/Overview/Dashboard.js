@@ -38,7 +38,7 @@ function TestCopm() {
         </View>
         <View style={styles.sections}>
           <View style={styles.separator}></View>
-          <Text style={styles.separatorText}>Organization</Text>
+          <Text style={styles.separatorText}>Organisation</Text>
         </View>
         <View style={styles.sections}>
           <Organization />

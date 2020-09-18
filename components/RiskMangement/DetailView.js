@@ -245,10 +245,10 @@ function DetailView({
         </View>
 
         <View style={styles.tiked}>
-          <AntDesign
-            name="leftcircle"
+          <Entypo
+            name="chevron-left"
             size={22}
-            color={colorPallate.white}
+            color={colorPallate.primary}
             onPress={handleClosebtn}
           />
           {checkOpen && (

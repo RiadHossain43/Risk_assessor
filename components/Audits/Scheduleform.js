@@ -105,6 +105,7 @@ function Scheduleform({
     ).toString(),
     nonConformity: [],
     conformance: [],
+    auditors_name: "",
     docs: [],
     businessFunction: "",
     risk: "",
@@ -133,11 +134,19 @@ function Scheduleform({
       >
         {(props) => (
           <View style={styles.form}>
+            <Text style={styles.label}>Business Function</Text>
             <TextInput
               style={[styles.inputs]}
               placeholder="Business Function"
               onChangeText={props.handleChange("businessFunction")}
               value={props.values.businessFunction}
+            />
+            <Text style={styles.label}>Auditor's name</Text>
+            <TextInput
+              style={[styles.inputs]}
+              placeholder="Auditor's name"
+              onChangeText={props.handleChange("auditors_name")}
+              value={props.values.auditors_name}
             />
             {renderList(nonCoformitylst)}
             {nonConfSucc_msg && (
@@ -225,6 +234,7 @@ function Scheduleform({
                 />
               </TouchableOpacity>
             </View>
+            <Text style={styles.label}>Risks</Text>
             <TextInput
               style={styles.inputs}
               placeholder="Risks"
@@ -233,6 +243,7 @@ function Scheduleform({
               numberOfLines={5}
               multiline={true}
             />
+            <Text style={styles.label}>Opportunity for improvements</Text>
             <TextInput
               style={styles.inputs}
               placeholder="Opportunity for Improvements"
@@ -276,8 +287,8 @@ function Scheduleform({
               style={styles.riskaddbtn}
               onPress={props.handleSubmit}
             >
-              <Text style={{ fontSize: 20, color: colorPallate.secondary }}>
-                Cofirm Schedule
+              <Text style={{ fontSize: 20, color: colorPallate.primary }}>
+                {editAudit == undefined ? "Cofirm Schedule" : "Update"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -319,9 +330,13 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 6,
   },
+  label: {
+    color: colorPallate.theme,
+    marginVertical: 4,
+  },
   riskaddbtn: {
     marginVertical: 0,
-    backgroundColor: colorPallate.primaryFocus,
+    backgroundColor: colorPallate.theme,
     borderRadius: 6,
     alignItems: "center",
     padding: 8,

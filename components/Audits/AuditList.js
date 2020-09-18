@@ -11,16 +11,20 @@ import {
 } from "react-native";
 
 import Schedulebtn from "./Scheduletbn";
-import CompIncompBtn from "./compIncombtn";
 import {
   Fontisto,
   Foundation,
+  Feather,
   AntDesign,
   Ionicons,
   FontAwesome5,
+  FontAwesome,
+  MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import DetailView from "./DetailView";
 import { colorPallate } from "../GlobalStyleVars";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+
 function ListItem({ audit, updateAuditLists, formTitle, addSchedule }) {
   let [detailOpen, setDetailOpen] = useState(false);
 
@@ -40,11 +44,8 @@ function ListItem({ audit, updateAuditLists, formTitle, addSchedule }) {
                 console.log("detail view");
               }}
             >
-              <Text style={{ fontSize: 16, color: colorPallate.white }}>
-                Back
-              </Text>
-              <AntDesign
-                name="downcircleo"
+              <Feather
+                name="minimize"
                 size={24}
                 color={colorPallate.primary}
                 style={{ marginHorizontal: 9 }}
@@ -69,33 +70,26 @@ function ListItem({ audit, updateAuditLists, formTitle, addSchedule }) {
               style={{ marginRight: 10 }}
             />
             <Text style={styles.auditTitle}>{audit.item.businessFunction}</Text>
-            <TouchableOpacity
-              onPress={() => setDetailOpen(true)}
+            <MaterialCommunityIcons
+              name="progress-wrench"
               style={{ marginLeft: "auto" }}
-            >
-              <FontAwesome5
-                name="expand"
-                size={18}
-                color={colorPallate.theme}
-              />
-            </TouchableOpacity>
+              size={20}
+              color={colorPallate.theme}
+            />
           </View>
           <View style={[styles.row]}></View>
           <View
             style={[styles.row, { marginVertical: 7, alignItems: "center" }]}
           >
-            <Fontisto name="clock" size={20} color={colorPallate.theme} />
+            <FontAwesome name="calendar" size={18} color={colorPallate.theme} />
             <Text style={{ marginHorizontal: 10 }}>
               Date: {audit.item.scheduleDate}
             </Text>
-            <TouchableOpacity style={styles.downloads}>
-              <Ionicons
-                name="md-download"
-                size={20}
-                color={colorPallate.primary}
-                style={{ marginRight: 10 }}
-              />
-              <Text style={styles.downloadText}>Reports</Text>
+            <TouchableOpacity
+              style={styles.details}
+              onPress={() => setDetailOpen(true)}
+            >
+              <Text style={styles.detailText}>Details</Text>
             </TouchableOpacity>
           </View>
         </>
@@ -122,13 +116,10 @@ function ListItemCompleted({ audit, updateAuditLists, formTitle, addRisk }) {
               console.log("detail view");
             }}
           >
-            <Text style={{ fontSize: 16, color: colorPallate.primary }}>
-              Back{" "}
-            </Text>
             <AntDesign
-              name="downcircleo"
+              name="back"
               size={24}
-              color={colorPallate.primaryFocus}
+              color={colorPallate.white}
               style={{ marginHorizontal: 9 }}
             />
           </TouchableOpacity>
@@ -146,33 +137,27 @@ function ListItemCompleted({ audit, updateAuditLists, formTitle, addRisk }) {
               style={{ marginRight: 10 }}
             />
             <Text style={styles.auditTitle}>{audit.item.businessFunction}</Text>
-            <TouchableOpacity
-              onPress={() => setDetailOpen(true)}
+
+            <Ionicons
+              name="md-checkbox-outline"
+              size={20}
+              color={colorPallate.lightGreen}
               style={{ marginLeft: "auto" }}
-            >
-              <FontAwesome5
-                name="expand"
-                size={18}
-                color={colorPallate.theme}
-              />
-            </TouchableOpacity>
+            />
           </View>
           <View style={[styles.row]}></View>
           <View
             style={[styles.row, { marginVertical: 7, alignItems: "center" }]}
           >
-            <Fontisto name="clock" size={20} color={colorPallate.theme} />
+            <FontAwesome name="calendar" size={18} color={colorPallate.theme} />
             <Text style={{ marginHorizontal: 10 }}>
               Closed: {audit.item.closed}
             </Text>
-            <TouchableOpacity style={styles.downloads}>
-              <Ionicons
-                name="md-download"
-                size={20}
-                color={colorPallate.primary}
-                style={{ marginRight: 10 }}
-              />
-              <Text style={styles.downloadText}>Reports</Text>
+            <TouchableOpacity
+              style={styles.details}
+              onPress={() => setDetailOpen(true)}
+            >
+              <Text style={styles.detailText}>Details</Text>
             </TouchableOpacity>
           </View>
         </>
@@ -181,10 +166,49 @@ function ListItemCompleted({ audit, updateAuditLists, formTitle, addRisk }) {
   );
 }
 
+function Audits({ audits, updateAuditLists, formTitle, addSchedule }) {
+  return (
+    <View style={styles.list}>
+      <Schedulebtn addSchedule={addSchedule} />
+      <FlatList
+        style={styles.list}
+        data={audits}
+        renderItem={(audit) => (
+          <ListItem
+            audit={audit}
+            updateAuditLists={updateAuditLists}
+            // formTitle={formTitle}
+            addSchedule={addSchedule}
+          />
+        )}
+      />
+    </View>
+  );
+}
+function Completed({ completedAudits, updateAuditLists }) {
+  return (
+    <View style={styles.list}>
+      <FlatList
+        style={styles.list}
+        data={completedAudits}
+        renderItem={(audit) => (
+          <ListItemCompleted
+            audit={audit}
+            updateAuditLists={updateAuditLists}
+            // formTitle={formTitle}
+            // addRisk={addRisk}
+          />
+        )}
+      />
+    </View>
+  );
+}
+
 function AuditList() {
   const [audits, setAudits] = useState([
     {
       key: (Math.random() - Math.random()).toString(),
+      auditors_name: "Nuraz nuraz",
       businessFunction: "Suitable business function here",
       nonConformity: ["Item1", "item2"],
       conformance: ["Itewm1", "item2"],
@@ -201,6 +225,7 @@ function AuditList() {
   const [completedAudits, setCompletedAudits] = useState([
     {
       key: (Math.random() - Math.random()).toString(),
+      auditors_name: "Nuraz nuraz",
       businessFunction: "Completed Business function here",
       nonConformity: ["Item1", "item2"],
       conformance: ["Itewm1", "item2"],
@@ -214,16 +239,6 @@ function AuditList() {
     },
   ]);
 
-  let [activeAudit, setActiveAudit] = useState(true);
-
-  const handleAuditsTabs = {
-    activateAuditTab: () => {
-      setActiveAudit(true);
-    },
-    activateCompletedTab: () => {
-      setActiveAudit(false);
-    },
-  };
   const addSchedule = (risk) => {
     setAudits((currentAudits) => {
       let found = currentAudits.find((item) => item.key == risk.key);
@@ -247,38 +262,32 @@ function AuditList() {
     });
     console.log(completedAudits);
   };
-
+  const Tab = createMaterialTopTabNavigator();
   return (
     <View style={styles.container}>
-      <CompIncompBtn handleAuditsTabs={handleAuditsTabs} />
-      <Schedulebtn addSchedule={addSchedule} />
-      {activeAudit ? (
-        <FlatList
-          style={styles.list}
-          data={audits}
-          renderItem={(audit) => (
-            <ListItem
-              audit={audit}
+      <Tab.Navigator>
+        <Tab.Screen
+          name="Audits"
+          children={() => (
+            <Audits
+              audits={audits}
               updateAuditLists={updateAuditLists}
               // formTitle={formTitle}
               addSchedule={addSchedule}
             />
           )}
         />
-      ) : (
-        <FlatList
-          style={styles.list}
-          data={completedAudits}
-          renderItem={(audit) => (
-            <ListItemCompleted
-              audit={audit}
-              updateAuditLists={updateAuditLists}
+        <Tab.Screen
+          name="Completed"
+          children={() => (
+            <Completed
+              completedAudits={completedAudits}
               // formTitle={formTitle}
-              // addRisk={addRisk}
+              updateAuditLists={updateAuditLists}
             />
           )}
         />
-      )}
+      </Tab.Navigator>
     </View>
   );
 }
@@ -292,13 +301,12 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingVertical: 10,
+    // paddingVertical: 10,
   },
-  downloads: {
+  details: {
     paddingVertical: 5,
     paddingHorizontal: 14,
-    backgroundColor: colorPallate.primaryFocus,
-    borderWidth: 1,
+    backgroundColor: colorPallate.theme,
     marginLeft: "auto",
     flexDirection: "row",
     borderRadius: 20,
@@ -307,19 +315,21 @@ const styles = StyleSheet.create({
   detailContainer: {
     padding: 10,
   },
-  downloadText: {
-    color: colorPallate.primary,
+  detailText: {
+    color: colorPallate.white,
   },
 
   row: {
     flexDirection: "row",
   },
   list: {
-    paddingTop: 6,
+    paddingTop: 5,
+    backgroundColor: colorPallate.primary,
+    flex: 1,
   },
   listback: {
     flexDirection: "row",
-    backgroundColor: colorPallate.primaryFocus,
+    backgroundColor: colorPallate.theme,
     alignItems: "center",
     padding: 10,
     borderTopRightRadius: 50,
@@ -329,7 +339,7 @@ const styles = StyleSheet.create({
   },
 
   Litem: {
-    backgroundColor: colorPallate.secondary,
+    backgroundColor: colorPallate.white,
     paddingVertical: 5,
     paddingHorizontal: 10,
     marginHorizontal: 10,
