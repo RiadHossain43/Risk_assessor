@@ -4,12 +4,14 @@ import { StyleSheet, SafeAreaView, View } from "react-native";
 
 import RootNavigator from "../../routes/Drawer_2";
 import LoginForm from "./form";
-export default function Login() {
+export default function Login({ navigation }) {
   let [session, setSession] = useState(false);
   let [logedin, setLogedin] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
-      {!logedin && !session && <LoginForm setLogedin={setLogedin} />}
+      {!logedin && !session && (
+        <LoginForm setLogedin={setLogedin} navigation={navigation} />
+      )}
       {(logedin || session) && <RootNavigator />}
     </SafeAreaView>
   );

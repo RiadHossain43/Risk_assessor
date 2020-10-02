@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 import Header from "../Header";
+import ContImpList from "./ContinualImpList";
 function ContImprove(props) {
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <Header props={props} />
-      <Text style={{ textAlign: "center" }}>
-        Continual Improvements Will be Here
-      </Text>
+      <ContImpList />
     </View>
   );
 }

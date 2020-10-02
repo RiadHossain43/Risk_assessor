@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 import Header from "../Header";
+import ReviewList from "./ReviewList";
 function MngmntReivew(props) {
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <Header props={props} />
-      <Text style={{ textAlign: "center" }}>
-        Management Review Will be Here
-      </Text>
+      <ReviewList />
     </View>
   );
 }

@@ -1,12 +1,84 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Modal, TouchableOpacity } from "react-native";
-import { Ionicons, Entypo } from "@expo/vector-icons";
+import {
+  Ionicons,
+  Entypo,
+  FontAwesome5,
+  FontAwesome,
+} from "@expo/vector-icons";
 import { colorPallate } from "../GlobalStyleVars";
 import Header from "../Header";
 import CreateForm from "./CreateForm";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+const Tab = createMaterialTopTabNavigator();
+function CreateScreen({ setFormOpen, setFormtitle }) {
+  return (
+    <View style={{ paddingVertical: 20 }}>
+      <TouchableOpacity
+        style={styles.addBtns}
+        onPress={() => {
+          setFormOpen(true);
+          setFormtitle("Add Business Function");
+        }}
+      >
+        <Ionicons
+          name="ios-git-network"
+          size={40}
+          color={colorPallate.lightGreen}
+          style={{ marginVertical: 20 }}
+        />
+        <Text style={styles.addBtnText}>Add Business Function</Text>
+      </TouchableOpacity>
+      <View style={styles.separator}></View>
+      <TouchableOpacity
+        style={styles.addBtns}
+        onPress={() => {
+          setFormOpen(true);
+          setFormtitle("Add Premises");
+        }}
+      >
+        <FontAwesome5
+          name="building"
+          size={40}
+          color={colorPallate.lightGreen}
+          style={{ marginVertical: 20 }}
+        />
+        <Text style={styles.addBtnText}>Add Premises</Text>
+      </TouchableOpacity>
+      <View style={styles.separator}></View>
+      <TouchableOpacity
+        style={styles.addBtns}
+        onPress={() => {
+          setFormOpen(true);
+          setFormtitle("iMS System Dates");
+        }}
+      >
+        <FontAwesome
+          name="calendar-plus-o"
+          size={40}
+          color={colorPallate.lightGreen}
+          style={{ marginVertical: 20 }}
+        />
+        <Text style={styles.addBtnText}>iMS Systems Dates</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+function MyiMSScreen() {
+  return (
+    <>
+      <Text>
+        This myims screen will contain information created by create screen
+      </Text>
+    </>
+  );
+}
+
 function CreateImsBody(props) {
   const [formOpen, setFormOpen] = useState(false);
   const [created, setCreate] = useState(false);
+  let [formTitle, setFormtitle] = useState("");
   function handleCreate() {
     setCreate(true);
     setTimeout(() => {
@@ -18,7 +90,7 @@ function CreateImsBody(props) {
     console.log("fired add form");
   }
   return (
-    <View>
+    <View style={{ flex: 1, backgroundColor: colorPallate.primary }}>
       <View style={styles.container}>
         <Modal visible={formOpen} animationType={"fade"}>
           <View style={styles.formtop}>
@@ -31,26 +103,29 @@ function CreateImsBody(props) {
               />
             </TouchableOpacity>
             <Text style={{ fontSize: 20, color: colorPallate.white }}>
-              Create iMS
+              {formTitle}
             </Text>
           </View>
-
-          <CreateForm handleCreate={handleCreate} setFormOpen={setFormOpen} />
+          <CreateForm
+            handleCreate={handleCreate}
+            setFormOpen={setFormOpen}
+            formTitle={formTitle}
+          />
         </Modal>
-        <View style={styles.btn}>
-          <Text style={styles.text}>Create your iMS</Text>
-          <TouchableOpacity
-            style={{ marginLeft: 10 }}
-            onPress={() => setFormOpen(true)}
-          >
-            <Ionicons
-              name="ios-add-circle"
-              size={35}
-              color={colorPallate.secondary}
-            />
-          </TouchableOpacity>
-        </View>
       </View>
+
+      <Tab.Navigator>
+        <Tab.Screen
+          name="Create"
+          children={() => (
+            <CreateScreen
+              setFormOpen={setFormOpen}
+              setFormtitle={setFormtitle}
+            />
+          )}
+        />
+        <Tab.Screen name="My iMS" children={() => <MyiMSScreen />} />
+      </Tab.Navigator>
       <View>
         {created && (
           <Text
@@ -58,6 +133,7 @@ function CreateImsBody(props) {
               textAlign: "center",
               color: colorPallate.theme,
               fontSize: 30,
+              marginBottom: 20,
             }}
           >
             Created Successfully
@@ -68,21 +144,40 @@ function CreateImsBody(props) {
   );
 }
 const styles = StyleSheet.create({
+  addBtns: {
+    backgroundColor: colorPallate.white,
+    borderColor: colorPallate.dashBoardseparator,
+    // borderWidth: 1,
+    borderRadius: 6,
+    paddingVertical: 10,
+    alignItems: "center",
+    marginHorizontal: 10,
+    shadowColor: "#CAE9FF",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 3.84,
+    elevation: 6,
+  },
+  addBtnText: {
+    color: colorPallate.theme,
+    fontSize: 16,
+  },
   btn: {
     flexDirection: "row",
     alignItems: "center",
+    paddingRight: 10,
   },
   container: {
-    padding: 10,
     backgroundColor: colorPallate.theme,
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 13,
     borderTopRightRadius: 60,
     borderBottomRightRadius: 60,
     alignItems: "center",
     alignSelf: "flex-start",
-    marginVertical: 10,
   },
   formtop: {
     flexDirection: "row",
@@ -94,6 +189,13 @@ const styles = StyleSheet.create({
   logo: {
     width: 50,
     height: 25,
+  },
+  separator: {
+    backgroundColor: colorPallate.gray,
+    height: 2,
+    borderRadius: 2,
+    marginVertical: 30,
+    marginHorizontal: 10,
   },
   text: {
     textAlign: "left",

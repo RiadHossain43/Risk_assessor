@@ -10,18 +10,13 @@ import {
 } from "react-native";
 import {
   Fontisto,
-  Feather,
+  Foundation,
   Ionicons,
   MaterialCommunityIcons,
-  AntDesign,
   Entypo,
-  SimpleLineIcons,
 } from "@expo/vector-icons";
+import Scheduleform from "./Scheduleform";
 import { colorPallate } from "../GlobalStyleVars";
-import Bar from "./customProgressbar";
-import RiskAdd from "./RiskAdd";
-import Acceptform from "./Acceptform";
-import { color } from "react-native-reanimated";
 function getClosedTime() {
   const monthNames = [
     "January",
@@ -52,18 +47,16 @@ function getClosedTime() {
 }
 
 function DetailView({
-  risk,
-  updateRisk,
-  addRisk,
+  review,
+  updatereviewLists,
+  addSchedule,
   closeDetailView,
   formTitle,
-  AcceptRiskList,
-  updateAcceptRiskList,
 }) {
   const [formOpen, setFormOpen] = useState(false);
-  let [mitigated, setMitigated] = useState(risk.item.mitigated);
+  let [completed, setCompleted] = useState(review.item.completed);
   let [checkOpen, setCheckopen] = useState(false);
-  let [acceptOpen, setAcceptOpen] = useState(false);
+
   function handleClosebtn() {
     checkOpen ? setCheckopen(false) : setCheckopen(true);
   }
@@ -71,7 +64,26 @@ function DetailView({
     setFormOpen(false);
     console.log("fired editform");
   }
-
+  function renderList(list, downloadable = false) {
+    return list.map((item, index) => (
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginVertical: 6,
+        }}
+      >
+        <Text style={styles.text}>
+          {index + 1}. {item}
+        </Text>
+        {downloadable && (
+          <TouchableOpacity style={{ marginLeft: "auto", marginRight: 20 }}>
+            <Ionicons name="md-download" size={25} color={colorPallate.theme} />
+          </TouchableOpacity>
+        )}
+      </View>
+    ));
+  }
   return (
     <View>
       <Modal visible={formOpen} animationType={"fade"}>
@@ -85,29 +97,18 @@ function DetailView({
             />
           </TouchableOpacity>
           <Text style={{ fontSize: 20, color: colorPallate.white }}>
-            {formTitle}
+            Update Review
           </Text>
         </View>
-
         <ScrollView style={styles.modal}>
-          <RiskAdd
-            addRisk={addRisk}
+          <Scheduleform
+            addSchedule={addSchedule}
             formClose={formClose}
-            editRisk={risk}
-            closeDetailView={closeDetailView}
-            formTitle={formTitle}
+            editReview={review}
           />
         </ScrollView>
       </Modal>
-      {!risk.item.accepted && (
-        <Acceptform
-          acceptOpen={acceptOpen}
-          setAcceptOpen={setAcceptOpen}
-          acceptRisk={risk}
-          AcceptRiskList={AcceptRiskList}
-        />
-      )}
-      <View style={mitigated || risk.item.accepted ? styles.risk : {}}>
+      <View style={completed ? styles.risk : {}}>
         <View
           style={{
             flexDirection: "row",
@@ -115,84 +116,42 @@ function DetailView({
             justifyContent: "space-between",
           }}
         >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Feather name="user" size={20} color={colorPallate.theme} />
-            <Text style={[styles.owner]}>Owner: {risk.item.owner}</Text>
-          </View>
-          {!mitigated && !risk.item.accepted && (
-            <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity
-                style={{ marginHorizontal: 5 }}
-                onPress={() => setFormOpen(true)}
-              >
-                <MaterialCommunityIcons
-                  name="circle-edit-outline"
-                  size={22}
-                  color={colorPallate.lightGreen}
-                />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={{ marginHorizontal: 6 }}
-                onPress={() => setAcceptOpen(true)}
-              >
-                <SimpleLineIcons
-                  name="drawer"
-                  size={20}
-                  color={colorPallate.lightGreen}
-                />
-              </TouchableOpacity>
-            </View>
+          {!completed && (
+            <TouchableOpacity
+              style={[styles.editButton, { marginLeft: "auto" }]}
+              onPress={() => setFormOpen(true)}
+            >
+              <MaterialCommunityIcons
+                name="circle-edit-outline"
+                size={20}
+                color={colorPallate.lightGreen}
+              />
+            </TouchableOpacity>
           )}
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          {mitigated ? (
-            <AntDesign
-              name="Safety"
+          {completed ? (
+            <Foundation
+              name="clipboard-pencil"
               size={20}
-              color={colorPallate.lightGreen}
+              color={colorPallate.theme}
             />
           ) : (
-            <AntDesign name="warning" size={20} color={colorPallate.red} />
+            <Foundation
+              name="clipboard-pencil"
+              size={20}
+              color={colorPallate.theme}
+            />
           )}
-          <Text style={[styles.risktitle, { marginLeft: 10 }]}>
-            {risk.item.risk}
-          </Text>
+          <Text style={[styles.risktitle, { marginLeft: 10 }]}>Review</Text>
         </View>
+        <Text>Attendees</Text>
+        {renderList(review.item.attendees)}
 
         <View style={styles.separator}></View>
 
-        <Text style={styles.risktitle}>Assets</Text>
-        <Text style={styles.text}>{risk.item.assets}</Text>
-        <Text style={styles.risktitle}>Tag</Text>
-        <Text style={styles.text}>{risk.item.asset_tag}</Text>
-        {risk.item.addInventory && (
-          <Text style={[styles.text]}>
-            ( Added to {formTitle.toLowerCase()} inventory )
-          </Text>
-        )}
-        <Text style={styles.risktitle}>Description</Text>
-        <Text style={styles.text}>{risk.item.detail}</Text>
-        <Text style={styles.risktitle}>Controls and Mitigatins</Text>
-        <Text style={styles.text}>{risk.item.mitigation}</Text>
-
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <View style={styles.levelContainer}>
-            <Text style={styles.risktitle}>
-              Consequences: {risk.item.consequence}
-            </Text>
-            <Bar level={risk.item.consequence} />
-          </View>
-          <View style={styles.levelContainer}>
-            <Text style={styles.risktitle}>
-              Likelihood: {risk.item.likelyhood}
-            </Text>
-            <Bar level={risk.item.likelyhood} />
-          </View>
-        </View>
-        <Text style={styles.risktitle}>
-          Risk Score: {risk.item.likelyhood * risk.item.consequence}
-        </Text>
+        <Text style={styles.risktitle}>Intervals</Text>
+        <Text style={styles.text}>{review.item.intervals}</Text>
         <View style={styles.separator}></View>
 
         <View
@@ -203,22 +162,10 @@ function DetailView({
           }}
         >
           <Fontisto name="clock" size={16} color={colorPallate.theme} />
-          <Text style={[styles.time]}>Raised on : {risk.item.submission}</Text>
+          <Text style={[styles.time]}>Date : {review.item.scheduleDate}</Text>
         </View>
 
-        {mitigated && (
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginVertical: 7,
-            }}
-          >
-            <Fontisto name="clock" size={16} color={colorPallate.theme} />
-            <Text style={[styles.time]}>Closed on : {risk.item.closed}</Text>
-          </View>
-        )}
-        {risk.item.accepted && (
+        {completed && (
           <View
             style={{
               flexDirection: "row",
@@ -228,24 +175,16 @@ function DetailView({
           >
             <Fontisto name="clock" size={16} color={colorPallate.theme} />
             <Text style={[styles.time]}>
-              Accepted on : {risk.item.accepted_on}
+              Completed date: {review.item.closed}
             </Text>
           </View>
         )}
-
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginVertical: 7,
-          }}
-        >
-          <Ionicons name="md-open" size={16} color={colorPallate.theme} />
-          <Text style={[styles.time]}>
-            Raised By : Reyad (Will Be automated)
-          </Text>
-        </View>
-
+        <View style={styles.separator}></View>
+        <Text style={styles.risktitle}>Agenda</Text>
+        {renderList(review.item.agenda, true)}
+        <View style={styles.separator}></View>
+        <Text style={styles.risktitle}>Minutes</Text>
+        {renderList(review.item.minutes, true)}
         <View style={styles.tiked}>
           <Entypo
             name="chevron-left"
@@ -261,9 +200,9 @@ function DetailView({
                   { marginHorizontal: 8, color: colorPallate.secondary },
                 ]}
               >
-                {mitigated ? "Mitigated" : "Close"}
+                {completed ? "Completed" : "Complete"}
               </Text>
-              {!mitigated && (
+              {!completed && (
                 <CheckBox
                   value={false}
                   tintColors={{
@@ -272,11 +211,9 @@ function DetailView({
                   }}
                   onChange={() => {
                     setTimeout(() => {
-                      risk.item.mitigated = true;
-                      risk.item.closed = getClosedTime();
-                      !risk.item.accepted
-                        ? updateRisk(risk.item)
-                        : updateAcceptRiskList(risk.item);
+                      review.item.completed = true;
+                      review.item.completed_on = getClosedTime();
+                      updatereviewLists(review.item);
                     }, 1500);
                   }}
                 />
@@ -299,10 +236,9 @@ const styles = StyleSheet.create({
     width: 26,
     borderRadius: 15,
     borderWidth: 1,
-    borderColor: "#62B6CB",
+    borderColor: colorPallate.lightGreen,
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: 10,
   },
   formtop: {
     flexDirection: "row",
@@ -369,7 +305,7 @@ const styles = StyleSheet.create({
     backgroundColor: colorPallate.theme,
     alignSelf: "flex-start",
     paddingVertical: 5,
-    marginVertical: 5,
+    marginVertical: 10,
   },
   time: { marginLeft: 10, fontSize: 16 },
   text: {

@@ -15,6 +15,8 @@ const colorPallate = {
   red: "#FF1C53",
   lightGreen: "#28df99",
   green: "#1b7768",
+  gray: "#D8D8D8",
+  fade: "#eeeeee",
   success_msg: "#62B6CB",
   dashBoardseparator: "#365377",
 };

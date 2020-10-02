@@ -10,7 +10,7 @@ import {
   ColorPropType,
 } from "react-native";
 
-import Schedulebtn from "./Scheduletbn";
+import Schedulebtn from "./Schedulebtn";
 import {
   Fontisto,
   Foundation,
@@ -19,18 +19,14 @@ import {
   Ionicons,
   FontAwesome5,
   FontAwesome,
-  MaterialCommunityIcons,
+  MaterialIcons,
 } from "@expo/vector-icons";
 import DetailView from "./DetailView";
 import { colorPallate } from "../GlobalStyleVars";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
-function ListItem({ audit, updateAuditLists, formTitle, addSchedule }) {
+function ListItem({ review, updatereviewLists, formTitle, addSchedule }) {
   let [detailOpen, setDetailOpen] = useState(false);
-
-  function closeDetailView() {
-    setDetailOpen(false);
-  }
 
   return (
     <View style={styles.Litem}>
@@ -53,8 +49,8 @@ function ListItem({ audit, updateAuditLists, formTitle, addSchedule }) {
             </TouchableOpacity>
           </View>
           <DetailView
-            audit={audit}
-            updateAuditLists={updateAuditLists}
+            review={review}
+            updatereviewLists={updatereviewLists}
             addSchedule={addSchedule}
           />
         </ScrollView>
@@ -63,19 +59,21 @@ function ListItem({ audit, updateAuditLists, formTitle, addSchedule }) {
       {!detailOpen && (
         <>
           <View style={[styles.row, { alignItems: "center" }]}>
-            <Foundation
-              name="clipboard-pencil"
+            <Fontisto
+              name="preview"
               size={20}
               color={colorPallate.theme}
               style={{ marginRight: 10 }}
             />
-            <Text style={styles.auditTitle}>{audit.item.businessFunction}</Text>
-            {/* <MaterialCommunityIcons
-              name="progress-wrench"
-              style={{ marginLeft: "auto" }}
-              size={20}
-              color={colorPallate.theme}
-            /> */}
+            <Text style={styles.reviewTitle}>Review</Text>
+            <View style={styles.intervals}>
+              <View style={styles.intervalIndicator}></View>
+              <View style={styles.intervalIndicator}></View>
+              <View style={styles.intervalIndicator}></View>
+              <Text style={[styles.reviewTitle, { marginLeft: 3 }]}>
+                Intervals: Quaterly
+              </Text>
+            </View>
           </View>
           <View style={[styles.row]}></View>
           <View
@@ -83,7 +81,7 @@ function ListItem({ audit, updateAuditLists, formTitle, addSchedule }) {
           >
             <FontAwesome name="calendar" size={18} color={colorPallate.theme} />
             <Text style={{ marginHorizontal: 10 }}>
-              Date: {audit.item.scheduleDate}
+              Date: {review.item.scheduleDate}
             </Text>
             <TouchableOpacity
               style={styles.details}
@@ -98,7 +96,7 @@ function ListItem({ audit, updateAuditLists, formTitle, addSchedule }) {
   );
 }
 
-function ListItemCompleted({ audit, updateAuditLists, formTitle, addRisk }) {
+function ListItemCompleted({ review, updatereviewLists, formTitle, addRisk }) {
   let [detailOpen, setDetailOpen] = useState(false);
 
   function closeDetailView() {
@@ -123,27 +121,31 @@ function ListItemCompleted({ audit, updateAuditLists, formTitle, addRisk }) {
               style={{ marginHorizontal: 9 }}
             />
           </TouchableOpacity>
-          <DetailView audit={audit} updateAuditLists={updateAuditLists} />
+          <DetailView
+            review={review}
+            // updatereviewLists={updatereviewLists}
+          />
         </ScrollView>
       </Modal>
 
       {!detailOpen && (
         <>
           <View style={[styles.row, { alignItems: "center" }]}>
-            <Foundation
-              name="clipboard-pencil"
+            <Fontisto
+              name="preview"
               size={20}
               color={colorPallate.theme}
               style={{ marginRight: 10 }}
             />
-            <Text style={styles.auditTitle}>{audit.item.businessFunction}</Text>
-
-            <Ionicons
-              name="md-checkbox-outline"
-              size={20}
-              color={colorPallate.lightGreen}
-              style={{ marginLeft: "auto" }}
-            />
+            <Text style={styles.reviewTitle}>Review</Text>
+            <View style={styles.intervals}>
+              <View style={styles.intervalIndicator}></View>
+              <View style={styles.intervalIndicator}></View>
+              <View style={styles.intervalIndicator}></View>
+              <Text style={[styles.reviewTitle, { marginLeft: 3 }]}>
+                Intervals: Quaterly
+              </Text>
+            </View>
           </View>
           <View style={[styles.row]}></View>
           <View
@@ -151,7 +153,7 @@ function ListItemCompleted({ audit, updateAuditLists, formTitle, addRisk }) {
           >
             <FontAwesome name="calendar" size={18} color={colorPallate.theme} />
             <Text style={{ marginHorizontal: 10 }}>
-              Closed: {audit.item.closed}
+              Closed: {review.item.completed_on}
             </Text>
             <TouchableOpacity
               style={styles.details}
@@ -166,17 +168,17 @@ function ListItemCompleted({ audit, updateAuditLists, formTitle, addRisk }) {
   );
 }
 
-function Audits({ audits, updateAuditLists, formTitle, addSchedule }) {
+function Reviews({ reviews, updatereviewLists, formTitle, addSchedule }) {
   return (
     <View style={styles.list}>
       <Schedulebtn addSchedule={addSchedule} />
       <FlatList
         style={styles.list}
-        data={audits}
-        renderItem={(audit) => (
+        data={reviews}
+        renderItem={(review) => (
           <ListItem
-            audit={audit}
-            updateAuditLists={updateAuditLists}
+            review={review}
+            updatereviewLists={updatereviewLists}
             // formTitle={formTitle}
             addSchedule={addSchedule}
           />
@@ -185,16 +187,16 @@ function Audits({ audits, updateAuditLists, formTitle, addSchedule }) {
     </View>
   );
 }
-function Completed({ completedAudits, updateAuditLists }) {
+function Completed({ completedReview, updatereviewLists }) {
   return (
     <View style={styles.list}>
       <FlatList
         style={styles.list}
-        data={completedAudits}
-        renderItem={(audit) => (
+        data={completedReview}
+        renderItem={(review) => (
           <ListItemCompleted
-            audit={audit}
-            updateAuditLists={updateAuditLists}
+            review={review}
+            // updatereviewLists={updatereviewLists}
             // formTitle={formTitle}
             // addRisk={addRisk}
           />
@@ -204,75 +206,71 @@ function Completed({ completedAudits, updateAuditLists }) {
   );
 }
 
-function AuditList() {
-  const [audits, setAudits] = useState([
+function reviewList() {
+  const [reviews, setreviews] = useState([
     {
       key: (Math.random() - Math.random()).toString(),
-      auditors_name: "Nuraz nuraz",
-      businessFunction: "Suitable business function here",
-      nonConformity: ["Item1", "item2"],
-      conformance: ["Itewm1", "item2"],
-      docs: ["document_one", "documnet_two"],
+      attendees: ["Nuraz zamal", "Reyad Hossain"],
+      intervals: "Quaterly",
+      agenda: ["Item1", "item2"],
+      minutes: ["Itewm1", "item2"],
       submission: "3 August 2020",
-      risk: "This is for risk",
-      imprvOpportun: "For improvement",
-      closed: "",
+      completed_on: "",
       completed: false,
       scheduleDate: "10 October 2020",
     },
   ]);
 
-  const [completedAudits, setCompletedAudits] = useState([
+  const [completedReview, setcompletedReview] = useState([
     {
       key: (Math.random() - Math.random()).toString(),
-      auditors_name: "Nuraz nuraz",
-      businessFunction: "Completed Business function here",
-      nonConformity: ["Item1", "item2"],
-      conformance: ["Itewm1", "item2"],
-      docs: ["document_one", "documnet_two"],
+      attendees: ["Nuraz zamal", "Reyad Hossain"],
+      intervals: "Quaterly",
+      agenda: ["Item1", "item2"],
+      minutes: ["Itewm1", "item2"],
       submission: "3 August 2020",
-      risk: "This is for risk",
-      imprvOpportun: "For improvement",
-      closed: "21 October 2020",
-      completed: true,
-      scheduleDate: "1 October 2020",
+      completed_on: "",
+      completed: false,
+      scheduleDate: "10 October 2020",
     },
   ]);
 
   const addSchedule = (risk) => {
-    setAudits((currentAudits) => {
-      let found = currentAudits.find((item) => item.key == risk.key);
+    setreviews((currentreviews) => {
+      let found = currentreviews.find((item) => item.key == risk.key);
       console.log("Found :", found);
-      if (found == undefined) return [...currentAudits, risk];
+      if (found == undefined) return [...currentreviews, risk];
       else
-        return currentAudits.map((item) =>
+        return currentreviews.map((item) =>
           item.key == risk.key ? risk : item
         );
     });
-    console.log(audits);
+    console.log(reviews);
   };
-  const updateAuditLists = (audit) => {
-    setAudits((currentAudits) => {
-      return currentAudits
-        .map((audititem) => (audititem.key == audit.key ? audit : audititem))
-        .filter((audititem) => audititem.completed == false);
+  const updatereviewLists = (review) => {
+    setreviews((currentreviews) => {
+      return currentreviews
+        .map((reviewitem) =>
+          reviewitem.key == review.key ? review : reviewitem
+        )
+        .filter((reviewitem) => reviewitem.completed == false);
     });
-    setCompletedAudits((currentAudits) => {
-      return [...currentAudits, audit];
+    setcompletedReview((currentreviews) => {
+      return [...currentreviews, review];
     });
-    console.log(completedAudits);
+    console.log(completedReview);
   };
   const Tab = createMaterialTopTabNavigator();
   return (
     <View style={styles.container}>
       <Tab.Navigator>
         <Tab.Screen
-          name="Audits"
+          name="reviews"
           children={() => (
-            <Audits
-              audits={audits}
-              updateAuditLists={updateAuditLists}
-              // formTitle={formTitle}
+            <Reviews
+              reviews={reviews}
+              updatereviewLists={updatereviewLists}
+              //   formTitle={formTitle}
               addSchedule={addSchedule}
             />
           )}
@@ -281,9 +279,9 @@ function AuditList() {
           name="Completed"
           children={() => (
             <Completed
-              completedAudits={completedAudits}
+              completedReview={completedReview}
               // formTitle={formTitle}
-              updateAuditLists={updateAuditLists}
+              //   updatereviewLists={updatereviewLists}
             />
           )}
         />
@@ -293,7 +291,7 @@ function AuditList() {
 }
 
 const styles = StyleSheet.create({
-  auditTitle: {
+  reviewTitle: {
     marginVertical: 7,
     fontSize: 16,
     fontWeight: "bold",
@@ -318,7 +316,18 @@ const styles = StyleSheet.create({
   detailText: {
     color: colorPallate.white,
   },
-
+  intervals: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: "auto",
+  },
+  intervalIndicator: {
+    height: 5,
+    width: 10,
+    borderRadius: 10,
+    backgroundColor: colorPallate.theme,
+    marginHorizontal: 2,
+  },
   row: {
     flexDirection: "row",
   },
@@ -355,4 +364,4 @@ const styles = StyleSheet.create({
     marginBottom: 17,
   },
 });
-export default AuditList;
+export default reviewList;

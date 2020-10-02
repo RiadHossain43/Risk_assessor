@@ -22,7 +22,7 @@ function TestCopm() {
     <ScrollView style={{ backgroundColor: colorPallate.theme }}>
       <View style={styles.board}>
         <View style={styles.sections}>
-          <Text style={styles.separatorText}>Risk summery</Text>
+          <Text style={styles.separatorText}>Risk summary</Text>
         </View>
         <View style={styles.sections}>
           <Summery />

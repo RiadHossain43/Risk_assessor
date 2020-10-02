@@ -42,7 +42,7 @@ function getSubmissionTime() {
   return time;
 }
 
-function Scheduleform({ setLogedin }) {
+function Scheduleform({ setLogedin, navigation }) {
   let initVal = {
     userid: "",
     password: "",
@@ -62,7 +62,9 @@ function Scheduleform({ setLogedin }) {
       <Formik
         initialValues={initVal}
         onSubmit={(values) => {
-          setLogedin(true);
+          setTimeout(() => {
+            setLogedin(true);
+          }, 900);
         }}
       >
         {(props) => (
@@ -86,7 +88,10 @@ function Scheduleform({ setLogedin }) {
 
             <TouchableOpacity
               style={styles.addbtn}
-              onPress={props.handleSubmit}
+              onPress={() => {
+                props.handleSubmit();
+                navigation.navigate("Welcome");
+              }}
             >
               <Text style={{ fontSize: 20, color: colorPallate.theme }}>
                 Login
